@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import PageChat from "./pages/chat";
 import PageList from "./pages/Lists";
 import PageContacts from "./pages/contacts";
+import PageAccount from "./pages/account";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
           <Route exact path="/chat" component={PageChat}></Route>
           <Route exact path="/" component={PageList}></Route>
           <Route exact path="/contacts" component={PageContacts}></Route>
+          <Route exact path="/account" component={PageAccount}></Route>
         </Switch>
       </div>
     </Router>
