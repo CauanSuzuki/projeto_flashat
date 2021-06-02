@@ -1,8 +1,25 @@
 import React from "react";
 import ReactDOM, { useHistory } from "react-router-dom";
+import Button from "@material-ui/core/Button";
+import ButtonGroup from "@material-ui/core/ButtonGroup";
+import { makeStyles } from "@material-ui/core/styles";
+import TextField from '@material-ui/core/TextField';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    "& > *": {
+      margin: theme.spacing(1),
+      width: '25ch',
+    },
+  },
+}));
 
 function List() {
   let history = useHistory();
+
   const redirectContacts = () => {
     history.push(`/contacts`);
   };
@@ -16,34 +33,72 @@ function List() {
     history.push(`/chat`);
   };
 
+  const classes = useStyles();
 
 
   return (
     <div className="listMain">
       <nav>
-        <button onClick={() => redirectList()}>conversas</button>
-        <button onClick={() => redirectContacts()}>contatos</button>
-        <button onClick={() => redirectAccount()}>conta</button>
+        <ButtonGroup
+          variant="text"
+          color="primary"
+          aria-label="text primary button group"
+        >
+          <Button onClick={() => redirectList()}>conversas</Button>
+          <Button onClick={() => redirectContacts()}>contatos</Button>
+          <Button onClick={() => redirectAccount()}>conta</Button>
+        </ButtonGroup>
       </nav>
       <div>
-        <button>Search</button>
-        <input></input>
+        <Button href="#text-buttons" color="primary">
+          Search
+        </Button>
+        <TextField id="standard-basic" />
         <div>
-          <lu>
-            <li><button onClick={() => redirectChat()}>conversa</button></li>
+          <dl>
+            <dt>
             <hr></hr>
-            <li>conversa</li>
+              <Button variant="outlined" onClick={() => redirectChat()}>
+                conversa
+              </Button>
+            </dt>
             <hr></hr>
-            <li>conversa</li>
+            <dt>
+              <Button variant="outlined" onClick={() => redirectChat()}>
+                conversa
+              </Button>
+            </dt>
             <hr></hr>
-            <li>conversa</li>
+            <dt>
+              <Button variant="outlined" onClick={() => redirectChat()}>
+                conversa
+              </Button>
+            </dt>
             <hr></hr>
-            <li>conversa</li>
+            <dt>
+              <Button variant="outlined" onClick={() => redirectChat()}>
+                conversa
+              </Button>
+            </dt>
             <hr></hr>
-            <li>conversa</li>
+            <dt>
+              <Button variant="outlined" onClick={() => redirectChat()}>
+                conversa
+              </Button>
+            </dt>
             <hr></hr>
-            <li>conversa</li>
-          </lu>
+            <dt>
+              <Button variant="outlined" onClick={() => redirectChat()}>
+                conversa
+              </Button>
+            </dt>
+            <hr></hr>
+            <dt>
+              <Button variant="outlined" onClick={() => redirectChat()}>
+                conversa
+              </Button>
+            </dt>
+          </dl>
         </div>
         <hr></hr>
       </div>

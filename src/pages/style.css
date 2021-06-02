@@ -1,0 +1,27 @@
+body {
+  background: #7591cc;
+  padding: 10px;
+}
+
+form input[type="text"] {
+  border: 2px solid #45c5bf;
+  border-radius: 5px;
+  padding: 5px;
+  width: 76%;
+  margin: 15px 0;
+}
+form input[type="submit"] {
+  background: #45c5bf;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-weight: bold;
+  padding: 8px 5px;
+  width: 19%;
+}
+.chatPlace {
+  background: #fff;
+  border: 2px solid #45c5bf;
+  height: 450px;
+}

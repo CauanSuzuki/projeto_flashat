@@ -1,26 +1,82 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactDOM, { useHistory } from "react-router-dom";
+import {} from "./style.css";
+import { useFormik } from "formik";
+import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+
+const useStyles = makeStyles((theme) => ({
+  margin: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
+  },
+}));
+
 function Chat() {
   let history = useHistory();
   const redirectList = () => {
     history.push(`/`);
   };
+  const [store, setStore] = useState([]);
+
+  const formik = useFormik({
+    initialValues: {
+      mensage: "",
+    },
+    onSubmit: async (value) => {
+      setStore([...store, value]);
+      cancelCourse();
+    },
+  });
+
+  const classes = useStyles();
+  
+  function cancelCourse() {
+    document.getElementById("chatBoxIn").reset();
+  }
 
   return (
     <div className="chatMain">
       <div className="Nav">
-        <button onClick={() => redirectList()}>return</button>
-        <h1>login("numero do celular")</h1>
+        <Button
+          type="submit"
+          value="send"
+          variant="contained"
+          color="primary"
+          className={classes.button}
+          onClick={() => redirectList()}
+        >
+          RETURN
+        </Button>
+        <p>login("numero do celular")</p>
       </div>
-      <hr></hr>
       <div className="chatPlace">
-        <p>(CS)vamos trocar menmsagem</p>
-        <p>(LO) estamos convesando </p>
+        {store.map((item) => (
+          <div>{item.mensage}</div>
+        ))}{" "}
       </div>
-      <hr></hr>
       <div className="textPlace">
-        <p>Digitando texto</p>
-        <button>enviar Mensagem</button>
+        <form id="chatBoxIn" onSubmit={formik.handleSubmit}>
+          <input
+            id="mensage"
+            type="text"
+            name="mensage"
+            placeholder="text mensage"
+            onChange={formik.handleChange}
+          />
+
+          <Button
+            type="submit"
+            value="send"
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            Send
+          </Button>
+        </form>
       </div>
     </div>
   );
