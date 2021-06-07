@@ -59,7 +59,7 @@ function Chat() {
       </div>
       <div className="textPlace">
         <form id="chatBoxIn" onSubmit={formik.handleSubmit}>
-          <input
+          <textarea
             id="mensage"
             type="text"
             name="mensage"

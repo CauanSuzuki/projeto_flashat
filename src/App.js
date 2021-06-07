@@ -13,8 +13,10 @@ import PageContacts from "./pages/contacts";
 import PageAccount from "./pages/account";
 import PageLogin from "./pages/login";
 import PageRegister from "./pages/register";
+import { useAllocate } from "./context/allocate";
 
 function App() {
+  const { login, senha, token } = useAllocate();
   return (
     <Router>
       <div>
@@ -24,15 +26,12 @@ function App() {
           <Route exact path="/contacts" component={PageContacts}></Route>
           <Route exact path="/account" component={PageAccount}></Route>
           <Route exact path="/register" component={PageRegister}></Route>
+          <Route exact path="/login" component={PageLogin}></Route>
           <Route
             exact
             path="/"
             render={(props) =>
-              login === "cauan" && senha === "123" ? (
-                <PageLogin {...props} />
-              ) : (
-                <Redirect to="/login" />
-              )
+              !token ? <Redirect to="/login" /> : <PageList {...props} />
             }
           ></Route>
         </Switch>

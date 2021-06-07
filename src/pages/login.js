@@ -1,14 +1,13 @@
 import React, { useState } from "react";
 import { Redirect, useHistory } from "react-router";
 import axios from "axios";
+import { useAllocate } from "../context/allocate";
 
 function Login({ children }) {
+  const { senha, setSenha, login, setLogin, setToken } = useAllocate();
+
   let history = useHistory();
 
-  const [login, setLogin] = useState([]);
-  const [senha, setSenha] = useState([]);
-
- 
   const redirectRegister = () => {
     history.push(`/register`);
   };
@@ -19,10 +18,12 @@ function Login({ children }) {
         phone: login,
         password: senha,
       })
-      .then((resposta) => console.log(resposta.data));
+      .then((resposta) => {
+        setToken(resposta.data.token);
+        console.log(resposta.data);
+        history.push("/");
+      });
   }
-  console.log("login -->",login)
-  console.log("senha -->",senha)
 
   return (
     <div className="login">
@@ -37,7 +38,7 @@ function Login({ children }) {
         onChange={(event) => setSenha(event.target.value)}
       />
       <br></br>
-      <button onClick={() => checkIn(login,senha)}>Enviar</button>
+      <button onClick={() => checkIn(login, senha)}>Enviar</button>
       <button onClick={() => redirectRegister()}>Registar</button>
     </div>
   );

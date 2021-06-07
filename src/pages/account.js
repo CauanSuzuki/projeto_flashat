@@ -4,6 +4,7 @@ import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
+import { useAllocate } from "../context/allocate";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Account() {
-  const [data, setData] = useState([]);
+  const { data, setData } = useAllocate();
 
   let history = useHistory();
   const redirectContacts = () => {
@@ -37,7 +38,7 @@ function Account() {
         .get("http://localhost:3312/user/create", {})
         .then(function (result) {
           setData(result.data);
-          console.log("result.data -->",result.data)
+          console.log("result.data -->", result.data);
         })
         .catch(function (error) {
           console.log(error);
