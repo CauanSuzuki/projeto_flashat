@@ -8,29 +8,21 @@ function Login({ children }) {
   const [login, setLogin] = useState([]);
   const [senha, setSenha] = useState([]);
 
-  const redirectList = () => {
-    history.push(`/list`);
+ 
+  const redirectRegister = () => {
+    history.push(`/register`);
   };
 
-  function register(phone, password, ) {
+  function checkIn(login, senha) {
     axios
-      .post("http://localhost:3312/user/create", {
-        phone: phone,
-        password: password,
+      .post("http://localhost:3312/user/login", {
+        phone: login,
+        password: senha,
       })
       .then((resposta) => console.log(resposta.data));
   }
-
-  //   function register(phone, name, password, email) {
-  //     axios
-  //       .post("http://localhost:3312/user/create", {
-  //         phone: phone,
-  //         name: name,
-  //         password: password,
-  //         email: email,
-  //       })
-  //       .then((resposta) => console.log(resposta.data));
-  //   }
+  console.log("login -->",login)
+  console.log("senha -->",senha)
 
   return (
     <div className="login">
@@ -44,8 +36,9 @@ function Login({ children }) {
         placeholder="PASSWORD"
         onChange={(event) => setSenha(event.target.value)}
       />
-
-      <button onClick={() => register()}>Enviar</button>
+      <br></br>
+      <button onClick={() => checkIn(login,senha)}>Enviar</button>
+      <button onClick={() => redirectRegister()}>Registar</button>
     </div>
   );
 }
