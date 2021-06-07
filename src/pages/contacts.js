@@ -1,20 +1,10 @@
 import React from "react";
-import ReactDOM, { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    "& > *": {
-      margin: theme.spacing(1),
-    },
-  },
-}));
+import "react-chat-elements/dist/main.css";
+import { ChatItem } from "react-chat-elements";
 
 function Contacts() {
   let history = useHistory();
@@ -27,8 +17,10 @@ function Contacts() {
   const redirectList = () => {
     history.push(`/list`);
   };
+  const redirectChat = () => {
+    history.push(`/chat`);
+  };
 
-  const classes = useStyles();
   return (
     <div className="listMain">
       <nav>
@@ -49,20 +41,42 @@ function Contacts() {
         <TextField id="standard-basic" />
         <div>
           <dl>
-            <hr></hr>
-            <Button variant="outlined">Contato</Button>
-            <hr></hr>
-            <Button variant="outlined">Contato</Button>
-            <hr></hr>
-            <Button variant="outlined">Contato</Button>
-            <hr></hr>
-            <Button variant="outlined">Contato</Button>
-            <hr></hr>
-            <Button variant="outlined">Contato</Button>
-            <hr></hr>
-            <Button variant="outlined">Contato</Button>
-            <hr></hr>
-            <Button variant="outlined">Contato</Button>
+            <label>
+              <div>
+                <ChatItem
+                  avatar={
+                    "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
+                  }
+                  alt={"Reactjs"}
+                  title={"Contato"}
+                  onClick={redirectChat}
+                />
+              </div>
+            </label>
+            <label>
+              <div>
+                <ChatItem
+                  avatar={
+                    "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
+                  }
+                  alt={"LN"}
+                  title={"Contato"}
+                  onClick={redirectChat}
+                />
+              </div>
+            </label>
+
+            <label>
+              <div>
+                <ChatItem
+                  avatar={
+                    "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
+                  }
+                  title={"Contato"}
+                  onClick={redirectChat}
+                />
+              </div>
+            </label>
           </dl>
         </div>
         <hr></hr>

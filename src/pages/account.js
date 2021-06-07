@@ -1,10 +1,8 @@
-import React, { useState, useEffect } from "react";
-import ReactDOM, { useHistory } from "react-router-dom";
+import React from "react";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { makeStyles } from "@material-ui/core/styles";
-import axios from "axios";
-import { useAllocate } from "../context/allocate";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -18,8 +16,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Account() {
-  const { data, setData } = useAllocate();
-
   let history = useHistory();
   const redirectContacts = () => {
     history.push(`/contacts`);
@@ -31,21 +27,6 @@ function Account() {
     history.push(`/list`);
   };
   const classes = useStyles();
-
-  useEffect(() => {
-    async function list() {
-      axios
-        .get("http://localhost:3312/user/create", {})
-        .then(function (result) {
-          setData(result.data);
-          console.log("result.data -->", result.data);
-        })
-        .catch(function (error) {
-          console.log(error);
-        });
-    }
-    list();
-  }, []);
 
   return (
     <div className="accountMain">
@@ -60,7 +41,6 @@ function Account() {
           <Button onClick={() => redirectAccount()}>conta</Button>
         </ButtonGroup>
       </nav>
-
       <Button
         type="submit"
         value="send"
@@ -71,19 +51,17 @@ function Account() {
       >
         RETURN
       </Button>
+
       <label>
-        {data.map((item) => (
-          <div key={item.id}>
-            <div className="wrapper">
-              <div className="phone">{item.phone}</div>
+        <div className="accountName">name: Cauan Felipe de Lima Suzuki</div>
+      </label>
 
-              <div className="name">{item.name}</div>
+      <label>
+        <div className="accountPhone">phone: (14)996053826 </div>
+      </label>
 
-              <div className="email">{item.email}</div>
-            </div>
-            <hr></hr>
-          </div>
-        ))}
+      <label>
+        <div className="accountEmail">cauanlima5@gmail.com</div>
       </label>
     </div>
   );

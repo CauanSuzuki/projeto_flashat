@@ -1,21 +1,10 @@
 import React from "react";
-import ReactDOM, { useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
-import { makeStyles } from "@material-ui/core/styles";
-import TextField from '@material-ui/core/TextField';
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    "& > *": {
-      margin: theme.spacing(1),
-      width: '25ch',
-    },
-  },
-}));
+import TextField from "@material-ui/core/TextField";
+import "react-chat-elements/dist/main.css";
+import { ChatItem } from "react-chat-elements";
 
 function List() {
   let history = useHistory();
@@ -32,9 +21,6 @@ function List() {
   const redirectChat = () => {
     history.push(`/chat`);
   };
-
-  const classes = useStyles();
-
 
   return (
     <div className="listMain">
@@ -56,48 +42,51 @@ function List() {
         <TextField id="standard-basic" />
         <div>
           <dl>
-            <dt>
-            <hr></hr>
-              <Button variant="outlined" onClick={() => redirectChat()}>
-                conversa
-              </Button>
-            </dt>
-            <hr></hr>
-            <dt>
-              <Button variant="outlined" onClick={() => redirectChat()}>
-                conversa
-              </Button>
-            </dt>
-            <hr></hr>
-            <dt>
-              <Button variant="outlined" onClick={() => redirectChat()}>
-                conversa
-              </Button>
-            </dt>
-            <hr></hr>
-            <dt>
-              <Button variant="outlined" onClick={() => redirectChat()}>
-                conversa
-              </Button>
-            </dt>
-            <hr></hr>
-            <dt>
-              <Button variant="outlined" onClick={() => redirectChat()}>
-                conversa
-              </Button>
-            </dt>
-            <hr></hr>
-            <dt>
-              <Button variant="outlined" onClick={() => redirectChat()}>
-                conversa
-              </Button>
-            </dt>
-            <hr></hr>
-            <dt>
-              <Button variant="outlined" onClick={() => redirectChat()}>
-                conversa
-              </Button>
-            </dt>
+            <label>
+              <div>
+                <ChatItem
+                  avatar={
+                    "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
+                  }
+                  alt={"Reactjs"}
+                  title={"Contato"}
+                  subtitle={"Last Mensage"}
+                  date={new Date()}
+                  unread={0}
+                  onClick={redirectChat}
+                />
+              </div>
+            </label>
+            <label>
+              <div>
+                <ChatItem
+                  avatar={
+                    "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
+                  }
+                  alt={"Reactjs"}
+                  title={"Contato"}
+                  subtitle={"Last Mensage"}
+                  date={new Date()}
+                  unread={1}
+                  onClick={redirectChat}
+                />
+              </div>
+            </label>
+
+            <label>
+              <div>
+                <ChatItem
+                  avatar={
+                    "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
+                  }
+                  title={"Contato"}
+                  subtitle={"Last Mensage"}
+                  date={new Date()}
+                  unread={2}
+                  onClick={redirectChat}
+                />
+              </div>
+            </label>
           </dl>
         </div>
         <hr></hr>

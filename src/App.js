@@ -4,7 +4,6 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  Link,
   Redirect,
 } from "react-router-dom";
 import PageChat from "./pages/chat";
@@ -16,7 +15,7 @@ import PageRegister from "./pages/register";
 import { useAllocate } from "./context/allocate";
 
 function App() {
-  const { login, senha, token } = useAllocate();
+  const {  token } = useAllocate();
   return (
     <Router>
       <div>

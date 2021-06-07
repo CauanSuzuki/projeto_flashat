@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Redirect, useHistory } from "react-router";
+import React from "react";
+import { useHistory } from "react-router";
 import axios from "axios";
 import { useAllocate } from "../context/allocate";
 
