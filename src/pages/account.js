@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ReactDOM, { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -16,6 +17,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Account() {
+  const [data, setData] = useState([]);
+
   let history = useHistory();
   const redirectContacts = () => {
     history.push(`/contacts`);
@@ -24,9 +27,24 @@ function Account() {
     history.push(`/account`);
   };
   const redirectList = () => {
-    history.push(`/`);
+    history.push(`/list`);
   };
   const classes = useStyles();
+
+  useEffect(() => {
+    async function list() {
+      axios
+        .get("http://localhost:3312/user/create", {})
+        .then(function (result) {
+          setData(result.data);
+          console.log("result.data -->",result.data)
+        })
+        .catch(function (error) {
+          console.log(error);
+        });
+    }
+    list();
+  }, []);
 
   return (
     <div className="accountMain">
@@ -41,7 +59,31 @@ function Account() {
           <Button onClick={() => redirectAccount()}>conta</Button>
         </ButtonGroup>
       </nav>
-      <p>informações contatos</p>
+
+      <Button
+        type="submit"
+        value="send"
+        variant="contained"
+        color="primary"
+        className={classes.button}
+        onClick={() => redirectList()}
+      >
+        RETURN
+      </Button>
+      <label>
+        {data.map((item) => (
+          <div key={item.id}>
+            <div className="wrapper">
+              <div className="phone">{item.phone}</div>
+
+              <div className="name">{item.name}</div>
+
+              <div className="email">{item.email}</div>
+            </div>
+            <hr></hr>
+          </div>
+        ))}
+      </label>
     </div>
   );
 }

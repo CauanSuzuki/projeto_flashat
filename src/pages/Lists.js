@@ -27,7 +27,7 @@ function List() {
     history.push(`/account`);
   };
   const redirectList = () => {
-    history.push(`/`);
+    history.push(`/list`);
   };
   const redirectChat = () => {
     history.push(`/chat`);

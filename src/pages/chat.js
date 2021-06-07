@@ -17,22 +17,22 @@ const useStyles = makeStyles((theme) => ({
 function Chat() {
   let history = useHistory();
   const redirectList = () => {
-    history.push(`/`);
+    history.push(`/list`);
   };
-  const [store, setStore] = useState([]);
+  const [chat, setChat] = useState([]);
 
   const formik = useFormik({
     initialValues: {
       mensage: "",
     },
     onSubmit: async (value) => {
-      setStore([...store, value]);
+      setChat([...chat, value]);
       cancelCourse();
     },
   });
 
   const classes = useStyles();
-  
+
   function cancelCourse() {
     document.getElementById("chatBoxIn").reset();
   }
@@ -53,7 +53,7 @@ function Chat() {
         <p>login("numero do celular")</p>
       </div>
       <div className="chatPlace">
-        {store.map((item) => (
+        {chat.map((item) => (
           <div>{item.mensage}</div>
         ))}{" "}
       </div>

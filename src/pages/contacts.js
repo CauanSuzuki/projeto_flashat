@@ -25,7 +25,7 @@ function Contacts() {
     history.push(`/account`);
   };
   const redirectList = () => {
-    history.push(`/`);
+    history.push(`/list`);
   };
 
   const classes = useStyles();
