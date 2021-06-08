@@ -18,7 +18,6 @@ function App() {
   const {  token } = useAllocate();
   return (
     <Router>
-      <div>
         <Switch>
           <Route exact path="/chat" component={PageChat}></Route>
           <Route exact path="/list" component={PageList}></Route>
@@ -34,7 +33,6 @@ function App() {
             }
           ></Route>
         </Switch>
-      </div>
     </Router>
   );
 }

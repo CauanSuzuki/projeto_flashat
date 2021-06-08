@@ -2,6 +2,7 @@ import React from "react";
 import { useHistory } from "react-router";
 import axios from "axios";
 import { useAllocate } from "../context/allocate";
+import {} from "./style.css";
 
 function Login({ children }) {
   const { senha, setSenha, login, setLogin, setToken } = useAllocate();
@@ -27,19 +28,26 @@ function Login({ children }) {
 
   return (
     <div className="login">
-      {children}
-      <hr />
-      <input
-        placeholder="YOUR NUMBER"
-        onChange={(event) => setLogin(event.target.value)}
-      />
-      <input
-        placeholder="PASSWORD"
-        onChange={(event) => setSenha(event.target.value)}
-      />
-      <br></br>
-      <button onClick={() => checkIn(login, senha)}>Enviar</button>
-      <button onClick={() => redirectRegister()}>Registar</button>
+      <div className="loginFormat">
+        {children}
+
+        <div className="inputLogin">
+          <input
+            placeholder="YOUR NUMBER"
+            onChange={(event) => setLogin(event.target.value)}
+          />
+
+          <input
+            placeholder="PASSWORD"
+            onChange={(event) => setSenha(event.target.value)}
+          />
+        </div>
+        <br></br>
+        <div className="loginButtons">
+          <button onClick={() => checkIn(login, senha)}>Enviar</button>
+          <button onClick={() => redirectRegister()}>Registar</button>
+        </div>
+      </div>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import TextField from "@material-ui/core/TextField";
 import "react-chat-elements/dist/main.css";
 import { ChatItem } from "react-chat-elements";
+import {} from "./style.css";
 
 function Contacts() {
   let history = useHistory();
@@ -79,7 +80,6 @@ function Contacts() {
             </label>
           </dl>
         </div>
-        <hr></hr>
       </div>
     </div>
   );

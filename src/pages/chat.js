@@ -4,6 +4,7 @@ import {} from "./style.css";
 import { useFormik } from "formik";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
+import Linkify from "react-linkify";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -19,7 +20,12 @@ function Chat() {
   const redirectList = () => {
     history.push(`/list`);
   };
-  const [chat, setChat] = useState([]);
+  const [chat, setChat] = useState([
+    { message: "ola, tudo bem" },
+    { message: "teste 123" },
+    { message: "See examples at tasti.github.io/react-linkify/." },
+    { message: "test 3421" },
+  ]);
 
   const formik = useFormik({
     initialValues: {
@@ -54,7 +60,16 @@ function Chat() {
       </div>
       <div className="chatPlace">
         {chat.map((item) => (
-          <div>{item.mensage}</div>
+          <div>
+            <Linkify
+              properties={{
+                target: "_blank",
+                style: { color: "red", fontWeight: "bold" },
+              }}
+            >
+              See source code at https://github.com/tasti/react-linkify/.
+            </Linkify>
+          </div>
         ))}{" "}
       </div>
       <div className="textPlace">
