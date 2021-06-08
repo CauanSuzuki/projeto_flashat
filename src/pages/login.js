@@ -3,6 +3,8 @@ import { useHistory } from "react-router";
 import axios from "axios";
 import { useAllocate } from "../context/allocate";
 import {} from "./style.css";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
 
 function Login({ children }) {
   const { senha, setSenha, login, setLogin, setToken } = useAllocate();
@@ -31,21 +33,46 @@ function Login({ children }) {
       <div className="loginFormat">
         {children}
 
+        <div className="loginLogo">
+          <img src="https://i.pinimg.com/236x/24/64/c0/2464c0306050f62571dbeb4352a0d8ab.jpg" />
+        </div>
+
         <div className="inputLogin">
-          <input
+          <TextField
+            id="standard-basic"
+            label="LOGIN"
             placeholder="YOUR NUMBER"
             onChange={(event) => setLogin(event.target.value)}
           />
 
-          <input
+          <TextField
+            id="standard-basic"
+            label="PASSWORD"
             placeholder="PASSWORD"
             onChange={(event) => setSenha(event.target.value)}
           />
         </div>
         <br></br>
+        <br></br>
         <div className="loginButtons">
-          <button onClick={() => checkIn(login, senha)}>Enviar</button>
-          <button onClick={() => redirectRegister()}>Registar</button>
+          <Button
+            className="loginButtons buttonGetIn"
+            variant="outlined"
+            size="small"
+            color="primary"
+            onClick={() => checkIn(login, senha)}
+          >
+            get in
+          </Button>
+
+          <Button
+            variant="outlined"
+            size="small"
+            color="primary"
+            onClick={() => redirectRegister()}
+          >
+            register
+          </Button>
         </div>
       </div>
     </div>
