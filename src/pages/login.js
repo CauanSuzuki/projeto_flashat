@@ -47,6 +47,7 @@ function Login({ children }) {
 
           <TextField
             id="standard-basic"
+            type="password"
             label="PASSWORD"
             placeholder="PASSWORD"
             onChange={(event) => setSenha(event.target.value)}
