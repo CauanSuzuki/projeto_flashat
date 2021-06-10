@@ -95,8 +95,6 @@ function Cadastro({ children }) {
             <br></br>
             <br></br>
 
-            {/* <button type="submit">register</button> */}
-            {/* <button onClick={() => redirecionarHome()}>Home</button> */}
             <Button
               className="registerHome"
               variant="outlined"
