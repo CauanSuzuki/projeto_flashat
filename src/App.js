@@ -19,7 +19,7 @@ function App() {
   return (
     <Router>
         <Switch>
-          <Route exact path="/chat" component={PageChat}></Route>
+          <Route exact path="/chat/:idChat" component={PageChat}></Route>
           <Route exact path="/list" component={PageList}></Route>
           <Route exact path="/contacts" component={PageContacts}></Route>
           <Route exact path="/account" component={PageAccount}></Route>

@@ -5,7 +5,8 @@ export function AllocateProvider({ children }) {
   const [data, setData] = useState([]);
   const [login, setLogin] = useState([]);
   const [senha, setSenha] = useState([]);
-  const [token,setToken] = useState("")
+  const [token, setToken] = useState("");
+  const [touch, setTouch] = useState([]);
 
   return (
     <allocateContext.Provider
@@ -17,7 +18,9 @@ export function AllocateProvider({ children }) {
         login,
         setLogin,
         token,
-        setToken
+        setToken,
+        touch,
+        setTouch,
       }}
     >
       {children}

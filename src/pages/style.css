@@ -25,12 +25,6 @@ form input[type="submit"] {
   background: #fff;
   border: 2px solid #45c5bf;
   height: 450px;
-
-
-  /* overflow-x: hidden;
-  overflow-y: scroll; */
-
-
   white-space: pre-line;
   color: rgb(8, 12, 10);
   padding: 15px;
@@ -96,4 +90,15 @@ form input[type="submit"] {
   position: relative;
   height: 450px;
   width: 400;
+}
+.externMsg {
+  width: 100%;
+  margin: 2px;
+}
+.myMsg {
+  width: 100%;
+  margin: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
 }

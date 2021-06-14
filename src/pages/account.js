@@ -5,33 +5,51 @@ import ButtonGroup from "@material-ui/core/ButtonGroup";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { useAllocate } from "../context/allocate";
+import Card from "@material-ui/core/Card";
+import CardHeader from "@material-ui/core/CardHeader";
+import CardContent from "@material-ui/core/CardContent";
+import Avatar from "@material-ui/core/Avatar";
+import Typography from "@material-ui/core/Typography";
+import { red } from "@material-ui/core/colors";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    "& > *": {
-      margin: theme.spacing(1),
-    },
+    maxWidth: 345,
+  },
+  media: {
+    height: 0,
+    paddingTop: "56.25%", // 16:9
+  },
+  expand: {
+    transform: "rotate(0deg)",
+    marginLeft: "auto",
+    transition: theme.transitions.create("transform", {
+      duration: theme.transitions.duration.shortest,
+    }),
+  },
+  expandOpen: {
+    transform: "rotate(180deg)",
+  },
+  avatar: {
+    backgroundColor: red[500],
   },
 }));
 
 function Account() {
-  const { token } = useAllocate();
+  const { token, touch, setTouch } = useAllocate();
 
   useEffect(() => {
     async function myStatus() {
       await axios
         .get("http://localhost:3312/user/showUser", {
           headers: {
-            Authorization: `token ${token}`,
+            Authorization: `token ${token.token}`,
           },
         })
-        .then(function (result) {
+        .then(function(result) {
           setTouch(result.data);
         })
-        .catch(function (error) {
+        .catch(function(error) {
           console.log(error);
         });
     }
@@ -48,11 +66,11 @@ function Account() {
   const redirectList = () => {
     history.push(`/list`);
   };
+
   const classes = useStyles();
-
-  const [touch, setTouch] = useState([]);
-
-  console.log(touch);
+  console.log("touch -->",touch);
+  console.log("token -->",token);
+  
 
   return (
     <div className="accountMain">
@@ -67,28 +85,38 @@ function Account() {
           <Button onClick={() => redirectAccount()}>conta</Button>
         </ButtonGroup>
       </nav>
-      <Button
-        type="submit"
-        value="send"
-        variant="contained"
-        color="primary"
-        className={classes.button}
-        onClick={() => redirectList()}
-      >
-        RETURN
-      </Button>
+      <div className="data"></div>
 
-      <label>
-        <div className="accountName">name: {touch.name}</div>
-      </label>
+      <Card className={classes.root}>
+        <CardHeader
+          avatar={
+            <Avatar aria-label="recipe" className={classes.avatar}>
+              R
+            </Avatar>
+          }
+          // action={
+          //   <IconButton aria-label="settings">
+          //     <MoreVertIcon />
+          //   </IconButton>
+          // }
+          title={touch.name}
+          subheader={touch.email}
+        />
 
-      <label>
-        <div className="accountPhone">phone: {touch.phone} </div>
-      </label>
-
-      <label>
-        <div className="accountEmail">email: {touch.email}</div>
-      </label>
+        <CardContent>
+          <Typography variant="body2" color="textSecondary" component="p">
+            {/* <label>
+              <div className="accountName">name: {touch.name}</div>
+            </label> */}
+            <label>
+              <div className="accountPhone">phone: {touch.phone} </div>
+            </label>{" "}
+            {/* <label>
+              <div className="accountEmail">email: {touch.email}</div>
+            </label> */}
+          </Typography>
+        </CardContent>
+      </Card>
     </div>
   );
 }

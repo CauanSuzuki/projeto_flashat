@@ -1,13 +1,14 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState,useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import TextField from "@material-ui/core/TextField";
 import "react-chat-elements/dist/main.css";
 import { ChatItem } from "react-chat-elements";
 import {} from "./style.css";
-import { useFormik } from "formik";
 import conversas from "../data/conversas.json";
+import { useAllocate } from "../context/allocate";
+import axios from'axios'
 
 function List() {
   let history = useHistory();
@@ -21,20 +22,28 @@ function List() {
   const redirectList = () => {
     history.push(`/list`);
   };
-  const redirectChat = () => {
-    history.push(`/chat`);
+  const redirectChat = (value) => {
+    history.push(`/chat/${value}`);
   };
 
+  const {data,token,setData} = useAllocate()
   const [atualizacao, setAtualizacao] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
 
   const reserch = (contato) => {
-    setAtualizacao(conversas.filter((value) => value.contato.includes(pesquisa)));
+    setAtualizacao(
+      data.filter((value) => value.contato.includes(pesquisa))
+    );
   };
 
-  console.log("att -->", atualizacao);
-  console.log("pes -->", pesquisa);
-  console.log(atualizacao);
+  let identificar = useParams();
+ 
+
+  console.log("atualizacao-->",atualizacao)
+  console.log("pesquisa-->",pesquisa)
+  console.log("-->",)
+ 
+
   return (
     <div className="listMain">
       <nav>
@@ -61,18 +70,18 @@ function List() {
             <label>
               <div>
                 {atualizacao.length === 0
-                  ? conversas.map((item) => (
+                  ? data.map((item) => (
                       <ChatItem
                         key={item.id}
                         avatar={
                           "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
                         }
                         alt={"Reactjs"}
-                        title={item.contato}
+                        title={item.name}
                         subtitle={item.lastMensage}
                         date={new Date()}
                         unread={0}
-                        onClick={redirectChat}
+                        onClick={() => redirectChat(item.id)}
                       />
                     ))
                   : atualizacao.map((item) => (
@@ -82,11 +91,11 @@ function List() {
                           "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
                         }
                         alt={"Reactjs"}
-                        title={item.contato}
+                        title={item.name}
                         subtitle={item.lastMensage}
                         date={new Date()}
                         unread={0}
-                        onClick={redirectChat}
+                        onClick={() => redirectChat(item.id)}
                       />
                     ))}
               </div>

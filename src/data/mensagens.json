@@ -1,22 +1,18 @@
 [
     {
-        "id":1,
-        "contato":"Levi",
-        "lastMensage":"testando 1"
+        "idMsg":"1",
+        "text":"bom dia",
+        "user": {
+            "id": "1",
+            "name": "Cauan"
+        }
     },
     {
-        "id":2,
-        "contato":"dani",
-        "lastMensage":"testando 2 "
-    },
-    {
-        "id":3,
-        "contato":"mateus",
-        "lastMensage":"testando 3 "
-    },
-    {
-        "id":4,
-        "contato":"milena",
-        "lastMensage":"testando 4"
+        "idMsg":"2",
+        "text":"tudo bem ?",
+        "user": {
+            "id": "1",
+            "name": "Cauan"
+        }
     }
 ]

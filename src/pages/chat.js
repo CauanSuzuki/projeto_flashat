@@ -1,11 +1,14 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
 import {} from "./style.css";
 import { useFormik } from "formik";
 import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import ScrollToBottom from "react-scroll-to-bottom";
 import axios from "axios";
+import mensagens from "../data/mensagens.json";
+import conversas from "../data/conversas.json";
+import { useAllocate } from "../context/allocate";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -37,21 +40,71 @@ function Chat() {
 
   const classes = useStyles();
 
+  const { token, data, setData, touch } = useAllocate();
+
   function cancelCourse() {
     document.getElementById("chatBoxIn").reset();
   }
 
-  async function list() {
+  let identificar = useParams();
+console.log(identificar.idChat)
+
+  useEffect(() => {
+    function createChat() {
+      axios
+        .post(
+          "http://localhost:3312/chat/createchat",
+          {
+            data: { userId: identificar.idChat },
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${token.token}`,
+            },
+          }
+        )
+        .then((resposta) => console.log(resposta.data));
+    }
+    createChat();
+  }, []);
+  // async function showMessage() {
+  //   axios
+  //     .get(`http://localhost:3312/message/showMessage/${identificar}`, {})
+  //     .then(function(result) {
+  //       setChat(result.data);
+  //     })
+  //     .catch(function(error) {
+  //       console.log(error);
+  //     });
+  // }
+  // function sendMensage() {
+  //   axios
+  //     .post(`http://localhost:3312/message/sendMessage/${identificar}`, {
+  //       text: chat,
+  //     })
+  //     .then((resposta) => console.log(resposta.data));
+  // }
+
+  async function showMessage() {
     axios
-      .get("http://localhost:3312/message/showMessage/1", {})
-      .then(function (result) {
+      .get(`http://localhost:3312/message/showMessage/${identificar}`, {})
+      .then(function(result) {
         setChat(result.data);
       })
-      .catch(function (error) {
+      .catch(function(error) {
         console.log(error);
       });
   }
+  function sendMensage() {
+    axios
+      .post(`http://localhost:3312/message/sendMessage/${identificar}`, {
+        text: chat,
+      })
+      .then((resposta) => console.log(resposta.data));
+  }
 
+  console.log("chat-->", chat);
+  console.log("TOUCH -->", touch);
   return (
     <div className="chatMain">
       <div className="Nav">
@@ -65,7 +118,7 @@ function Chat() {
         >
           RETURN
         </Button>
-        <p>login("numero do celular")</p>
+        {/* <p>{data.map((item)=> item.name === )}</p> */}
       </div>
 
       <div className="chatPlace">
@@ -74,8 +127,12 @@ function Chat() {
           initialScrollBehavior="smooth"
           mode="bottom"
         >
+          {mensagens.map((item) => (
+            <div className="externMsg">{item.text}</div>
+          ))}
+
           {chat.map((item) => (
-            <div>{item.mensage}</div>
+            <div className="myMsg">{item.mensage}</div>
           ))}
         </ScrollToBottom>
       </div>
