@@ -1,18 +1,4 @@
 [
-    {
-        "idMsg":"1",
-        "text":"bom dia",
-        "user": {
-            "id": "1",
-            "name": "Cauan"
-        }
-    },
-    {
-        "idMsg":"2",
-        "text":"tudo bem ?",
-        "user": {
-            "id": "1",
-            "name": "Cauan"
-        }
-    }
+  
+
 ]

@@ -10,8 +10,7 @@ import conversas from "../data/conversas.json";
 import axios from "axios";
 import { useAllocate } from "../context/allocate";
 
-function Contacts({children}) {
-  
+function Contacts({ children }) {
   let history = useHistory();
   const redirectContacts = () => {
     history.push(`/contacts`);
@@ -22,9 +21,26 @@ function Contacts({children}) {
   const redirectList = () => {
     history.push(`/list`);
   };
-  const redirectChat = () => {
-    history.push(`/chat/${conversas.idChat}`);
+  const redirectChat = (value) => {
+    history.push(`/chat/${value}`);
   };
+
+  function createChat(value) {
+    axios
+      .post(
+        "http://localhost:3312/chat/createchat",
+        {
+          userId: value,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+          },
+        }
+      )
+      .then((resposta) => history.push(`/chat/${resposta.data.id}`));
+  }
+
   let identificar = useParams();
   const {
     senha,
@@ -36,26 +52,33 @@ function Contacts({children}) {
     setLogin,
     setData,
     setToken,
+    atualizacao,
+    setAtualizacao,
+    pesquisa,
+    setPesquisa,
   } = useAllocate();
 
   useEffect(() => {
     async function showContact() {
       axios
-      .get(`http://localhost:3312/contacts/mycontacts`, {
-        headers: {
-          Authorization: `token ${token.token}`,
-        },
-      })
-      .then(function(result) {
-        setData(result.data);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
-  showContact();
+        .get(`http://localhost:3312/contacts/mycontacts`, {
+          headers: {
+            Authorization: `token ${token.token}`,
+          },
+        })
+        .then(function(result) {
+          setData(result.data);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+    showContact();
   }, []);
 
+  const reserch = (contato) => {
+    setAtualizacao(data.filter((value) => value.name.includes(pesquisa)));
+  };
 
   console.log("data-->", data);
 
@@ -73,23 +96,46 @@ function Contacts({children}) {
         </ButtonGroup>
       </nav>
       <div>
-        <Button href="#text-buttons" color="primary">
+        <Button href="#text-buttons" color="primary" onClick={() => reserch()}>
           Search
         </Button>
-        <TextField id="standard-basic" />
+        <TextField
+          id="standard-basic"
+          onChange={(event) => setPesquisa(event.target.value)}
+        />
         <div>
           <dl>
             <label>
               <div>
-                {data.map((item) => (
-                  <ChatItem
-                    avatar={
-                      "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
-                    }
-                    title={item.name}
-                    onClick={redirectChat}
-                  />
-                ))}
+                {atualizacao.length === 0
+                  ? data.map((item) => (
+                      <ChatItem
+                        key={item.id}
+                        avatar={
+                          "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
+                        }
+                        alt={"Reactjs"}
+                        title={item.name}
+                        subtitle={item.lastMensage}
+                        date={new Date()}
+                        unread={0}
+                        onClick={() => createChat(item.id)}
+                      />
+                    ))
+                  : atualizacao.map((item) => (
+                      <ChatItem
+                        key={item.id}
+                        avatar={
+                          "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
+                        }
+                        alt={"Reactjs"}
+                        title={item.name}
+                        subtitle={item.lastMensage}
+                        date={new Date()}
+                        unread={0}
+                        onClick={() => createChat(item.id)}
+                      />
+                    ))}
               </div>
             </label>
           </dl>

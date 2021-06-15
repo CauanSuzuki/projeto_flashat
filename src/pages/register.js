@@ -5,6 +5,40 @@ import { useHistory } from "react-router-dom";
 import {} from "./style.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import PropTypes from "prop-types";
+import MaskedInput from "react-text-mask";
+import NumberFormat from "react-number-format";
+import { makeStyles } from "@material-ui/core/styles";
+import Input from "@material-ui/core/Input";
+import InputLabel from "@material-ui/core/InputLabel";
+import FormControl from "@material-ui/core/FormControl";
+
+// const useStyles = makeStyles((theme) => ({
+//   root: {
+//     "& > *": {
+//       margin: theme.spacing(1),
+//     },
+//   },
+// }));
+
+// function TextMaskCustom(props) {
+//   const { inputRef, ...other } = props;
+
+//   return (
+//     <NumberFormat
+//       {...other}
+//       ref={(ref) => {
+//         inputRef(ref ? ref.inputElement : null);
+//       }}
+//       format="(###) #####-####"
+//       mask="_"
+//     />
+//   );
+// }
+
+// TextMaskCustom.propTypes = {
+//   inputRef: PropTypes.func.isRequired,
+// };
 
 function Cadastro({ children }) {
   const formik = useFormik({
@@ -23,6 +57,20 @@ function Cadastro({ children }) {
   const redirecionarHome = () => {
     history.push("/login");
   };
+
+  // const classes = useStyles();
+  // const [values, setValues] = React.useState({
+  //   textmask: "(0  )    -    ",
+  //   numberformat: "1320",
+  // });
+
+  // const handleChange = (event) => {
+  //   setValues({
+  //     ...values,
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
+
   function reserch(phone, name, password, email) {
     axios
       .post("http://localhost:3312/user/create", {
@@ -51,6 +99,17 @@ function Cadastro({ children }) {
               value={formik.values.phone}
             />
 
+            {/* <div className={classes.root}>
+              <InputLabel htmlFor="formatted-text-mask-input">PHONE</InputLabel>
+              <Input
+                value={values.textmask}
+                onChange={handleChange}
+                name="textmask"
+                id="formatted-text-mask-input"
+                inputComponent={TextMaskCustom}
+              />
+            </div> */}
+
             <br></br>
             <br></br>
             <label htmlFor="name"></label>
@@ -74,6 +133,9 @@ function Cadastro({ children }) {
               label="PASSWORD"
               type="text"
               placeholder="everything"
+              format=" (##) #####-####"
+              allowEmptyFormatting
+              mask="_"
               onChange={formik.handleChange}
               value={formik.values.password}
             />

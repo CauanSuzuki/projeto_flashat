@@ -6,21 +6,15 @@ import {} from "./style.css";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
+
 function Login({ children }) {
-  const {
-    senha,
-    setSenha,
-    login,
-    setLogin,
-    setToken,
-  } = useAllocate();
+  const { senha, setSenha, login, setLogin, setToken } = useAllocate();
 
   let history = useHistory();
 
   const redirectRegister = () => {
     history.push(`/register`);
   };
-
 
   function checkIn(login, senha) {
     axios
@@ -34,9 +28,8 @@ function Login({ children }) {
         history.push("/");
       });
   }
-  console.log("senha-->",senha)
-  console.log("login-->",login)
-  
+  console.log("senha-->", senha);
+  console.log("login-->", login);
 
   return (
     <div className="login">
@@ -57,11 +50,17 @@ function Login({ children }) {
 
           <TextField
             id="standard-basic"
-            type="password"
+            type="text"
             label="PASSWORD"
             placeholder="PASSWORD"
+            format=" (##) #####-####"
+            allowEmptyFormatting
+            mask="_"
             onChange={(event) => setSenha(event.target.value)}
           />
+
+
+          
         </div>
         <br></br>
         <br></br>

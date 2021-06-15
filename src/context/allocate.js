@@ -7,6 +7,8 @@ export function AllocateProvider({ children }) {
   const [senha, setSenha] = useState([]);
   const [token, setToken] = useState("");
   const [touch, setTouch] = useState([]);
+  const [atualizacao, setAtualizacao] = useState([]);
+  const [pesquisa, setPesquisa] = useState("");
 
   return (
     <allocateContext.Provider
@@ -21,6 +23,10 @@ export function AllocateProvider({ children }) {
         setToken,
         touch,
         setTouch,
+        atualizacao,
+        setAtualizacao,
+        pesquisa,
+        setPesquisa,
       }}
     >
       {children}

@@ -32,7 +32,7 @@ function List() {
 
   const reserch = (contato) => {
     setAtualizacao(
-      data.filter((value) => value.contato.includes(pesquisa))
+      data.filter((value) => value.name.includes(pesquisa))
     );
   };
 
@@ -69,7 +69,7 @@ function List() {
           <dl>
             <label>
               <div>
-                {atualizacao.length === 0
+                {/* {atualizacao.length === 0
                   ? data.map((item) => (
                       <ChatItem
                         key={item.id}
@@ -97,7 +97,7 @@ function List() {
                         unread={0}
                         onClick={() => redirectChat(item.id)}
                       />
-                    ))}
+                    ))} */}
               </div>
             </label>
           </dl>

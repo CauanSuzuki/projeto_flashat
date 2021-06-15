@@ -68,9 +68,10 @@ function Account() {
   };
 
   const classes = useStyles();
-  console.log("touch -->",touch);
-  console.log("token -->",token);
-  
+
+
+  console.log("touch -->", touch);
+  console.log("token -->", token);
 
   return (
     <div className="accountMain">

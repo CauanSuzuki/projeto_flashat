@@ -27,6 +27,7 @@ function Chat() {
   };
 
   const [chat, setChat] = useState([]);
+  const [mensage, setMensage] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -47,61 +48,52 @@ function Chat() {
   }
 
   let identificar = useParams();
-console.log(identificar.idChat)
 
+  console.log("chat user  -->", identificar.idChat);
+
+  console.log("id do contato -->", identificar);
+  ///////////////////////////////////////mostrar msg///////////////////////////
   useEffect(() => {
-    function createChat() {
-      axios
-        .post(
-          "http://localhost:3312/chat/createchat",
-          {
-            data: { userId: identificar.idChat },
-          },
+    async function showMessage() {
+      await axios
+        .get(
+          `http://localhost:3312/message/showMessage/${identificar.idChat}`,
           {
             headers: {
               Authorization: `Bearer ${token.token}`,
             },
           }
         )
-        .then((resposta) => console.log(resposta.data));
+        .then(function(result) {
+          setChat(result.data);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     }
-    createChat();
+    showMessage();
   }, []);
-  // async function showMessage() {
-  //   axios
-  //     .get(`http://localhost:3312/message/showMessage/${identificar}`, {})
-  //     .then(function(result) {
-  //       setChat(result.data);
-  //     })
-  //     .catch(function(error) {
-  //       console.log(error);
-  //     });
-  // }
-  // function sendMensage() {
-  //   axios
-  //     .post(`http://localhost:3312/message/sendMessage/${identificar}`, {
-  //       text: chat,
-  //     })
-  //     .then((resposta) => console.log(resposta.data));
-  // }
 
-  async function showMessage() {
-    axios
-      .get(`http://localhost:3312/message/showMessage/${identificar}`, {})
-      .then(function(result) {
-        setChat(result.data);
-      })
-      .catch(function(error) {
-        console.log(error);
-      });
-  }
+  ////////////////////////////////////////////////////////////////////////////////
+  /////////////////////////////////////mandar msg/////////////////////////////////////
+
   function sendMensage() {
     axios
-      .post(`http://localhost:3312/message/sendMessage/${identificar}`, {
-        text: chat,
-      })
+      .post(
+        `http://localhost:3312/message/sendMessage/${identificar.idChat}`,
+        {
+          text: mensage,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+          },
+        }
+      )
       .then((resposta) => console.log(resposta.data));
   }
+
+  /////////////////////////////////////////////////////////////////////////////////
 
   console.log("chat-->", chat);
   console.log("TOUCH -->", touch);
@@ -118,7 +110,6 @@ console.log(identificar.idChat)
         >
           RETURN
         </Button>
-        {/* <p>{data.map((item)=> item.name === )}</p> */}
       </div>
 
       <div className="chatPlace">
@@ -127,13 +118,21 @@ console.log(identificar.idChat)
           initialScrollBehavior="smooth"
           mode="bottom"
         >
-          {mensagens.map((item) => (
-            <div className="externMsg">{item.text}</div>
-          ))}
+          {chat.map((item) =>
+            item.chatId == identificar.idChat ? (
+              <div className="externMsg">{item.text}</div>
+            ) : (
+              <div className="myMsg">{item.mensage}</div>
+            )
+          )}
 
-          {chat.map((item) => (
+          {/* {mensagens.map((item) => (
+            <div className="externMsg">{item.text}</div>
+          ))} */}
+
+          {/* {chat.map((item) => (
             <div className="myMsg">{item.mensage}</div>
-          ))}
+          ))} */}
         </ScrollToBottom>
       </div>
 
