@@ -35,13 +35,14 @@ function Chat() {
     },
     onSubmit: async (value) => {
       setChat([...chat, value]);
+      sendMensage();
       cancelCourse();
     },
   });
 
   const classes = useStyles();
 
-  const { token, data, setData, touch } = useAllocate();
+  const { token, data, setData, touch, dadosOtherUser } = useAllocate();
 
   function cancelCourse() {
     document.getElementById("chatBoxIn").reset();
@@ -49,10 +50,6 @@ function Chat() {
 
   let identificar = useParams();
 
-  console.log("chat user  -->", identificar.idChat);
-
-  console.log("id do contato -->", identificar);
-  ///////////////////////////////////////mostrar msg///////////////////////////
   useEffect(() => {
     async function showMessage() {
       await axios
@@ -66,6 +63,9 @@ function Chat() {
         )
         .then(function(result) {
           setChat(result.data);
+          setTimeout(() => {
+            showMessage();
+          }, 30000);
         })
         .catch(function(error) {
           console.log(error);
@@ -74,15 +74,12 @@ function Chat() {
     showMessage();
   }, []);
 
-  ////////////////////////////////////////////////////////////////////////////////
-  /////////////////////////////////////mandar msg/////////////////////////////////////
-
   function sendMensage() {
     axios
       .post(
         `http://localhost:3312/message/sendMessage/${identificar.idChat}`,
         {
-          text: mensage,
+          text: formik.values.mensage,
         },
         {
           headers: {
@@ -93,13 +90,15 @@ function Chat() {
       .then((resposta) => console.log(resposta.data));
   }
 
-  /////////////////////////////////////////////////////////////////////////////////
-
   console.log("chat-->", chat);
   console.log("TOUCH -->", touch);
+  console.log("token -->", token);
+  console.log("otherUser -->", dadosOtherUser)
+
   return (
     <div className="chatMain">
       <div className="Nav">
+        
         <Button
           type="submit"
           value="send"
@@ -110,31 +109,24 @@ function Chat() {
         >
           RETURN
         </Button>
+        {dadosOtherUser.name}
       </div>
 
-      <div className="chatPlace">
-        <ScrollToBottom
-          className="ROOT_CSS"
-          initialScrollBehavior="smooth"
-          mode="bottom"
-        >
+      <ScrollToBottom
+        className="ROOT_CSS"
+        initialScrollBehavior="smooth"
+        mode="bottom"
+      >
+        <div className="chatPlace">
           {chat.map((item) =>
-            item.chatId == identificar.idChat ? (
+            item.userId == token.user.id ? (
               <div className="externMsg">{item.text}</div>
             ) : (
-              <div className="myMsg">{item.mensage}</div>
+              <div className="myMsg">{item.text}</div>
             )
           )}
-
-          {/* {mensagens.map((item) => (
-            <div className="externMsg">{item.text}</div>
-          ))} */}
-
-          {/* {chat.map((item) => (
-            <div className="myMsg">{item.mensage}</div>
-          ))} */}
-        </ScrollToBottom>
-      </div>
+        </div>
+      </ScrollToBottom>
 
       <div className="textPlace">
         <form id="chatBoxIn" onSubmit={formik.handleSubmit}>

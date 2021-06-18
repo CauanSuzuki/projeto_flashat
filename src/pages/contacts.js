@@ -21,24 +21,23 @@ function Contacts({ children }) {
   const redirectList = () => {
     history.push(`/list`);
   };
-  const redirectChat = (value) => {
-    history.push(`/chat/${value}`);
-  };
 
   function createChat(value) {
     axios
       .post(
         "http://localhost:3312/chat/createchat",
-        {
-          userId: value,
-        },
+        { userId: value },
         {
           headers: {
             Authorization: `Bearer ${token.token}`,
           },
         }
       )
-      .then((resposta) => history.push(`/chat/${resposta.data.id}`));
+      .then((resposta) => {
+        console.log("resp -->", resposta)
+        setdadosOtherUser(resposta.data.otherUser);
+        history.push(`/chat/${resposta.data.chat.id}`);
+      });
   }
 
   let identificar = useParams();
@@ -56,6 +55,8 @@ function Contacts({ children }) {
     setAtualizacao,
     pesquisa,
     setPesquisa,
+    dadosOtherUser,
+    setdadosOtherUser,
   } = useAllocate();
 
   useEffect(() => {
@@ -84,18 +85,19 @@ function Contacts({ children }) {
 
   return (
     <div className="listMain">
-      <nav>
-        <ButtonGroup
-          variant="text"
-          color="primary"
-          aria-label="text primary button group"
-        >
-          <Button onClick={() => redirectList()}>conversas</Button>
-          <Button onClick={() => redirectContacts()}>contatos</Button>
-          <Button onClick={() => redirectAccount()}>conta</Button>
-        </ButtonGroup>
-      </nav>
-      <div>
+      <div className="head">
+        <nav>
+          <ButtonGroup
+            variant="text"
+            color="primary"
+            aria-label="text primary button group"
+          >
+            <Button onClick={() => redirectList()}>conversas</Button>
+            <Button onClick={() => redirectContacts()}>contatos</Button>
+            <Button onClick={() => redirectAccount()}>conta</Button>
+          </ButtonGroup>
+        </nav>
+
         <Button href="#text-buttons" color="primary" onClick={() => reserch()}>
           Search
         </Button>
@@ -103,43 +105,42 @@ function Contacts({ children }) {
           id="standard-basic"
           onChange={(event) => setPesquisa(event.target.value)}
         />
-        <div>
-          <dl>
-            <label>
-              <div>
-                {atualizacao.length === 0
-                  ? data.map((item) => (
-                      <ChatItem
-                        key={item.id}
-                        avatar={
-                          "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
-                        }
-                        alt={"Reactjs"}
-                        title={item.name}
-                        subtitle={item.lastMensage}
-                        date={new Date()}
-                        unread={0}
-                        onClick={() => createChat(item.id)}
-                      />
-                    ))
-                  : atualizacao.map((item) => (
-                      <ChatItem
-                        key={item.id}
-                        avatar={
-                          "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
-                        }
-                        alt={"Reactjs"}
-                        title={item.name}
-                        subtitle={item.lastMensage}
-                        date={new Date()}
-                        unread={0}
-                        onClick={() => createChat(item.id)}
-                      />
-                    ))}
-              </div>
-            </label>
-          </dl>
-        </div>
+      </div>
+
+      <div className="c">
+        <dl>
+          <label>
+            {atualizacao.length === 0
+              ? data.map((item) => (
+                  <ChatItem
+                    key={item.id}
+                    avatar={
+                      "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
+                    }
+                    alt={"Reactjs"}
+                    title={item.name}
+                    subtitle={item.lastMensage}
+                    date={new Date()}
+                    unread={0}
+                    onClick={() => createChat(item.id)}
+                  />
+                ))
+              : atualizacao.map((item) => (
+                  <ChatItem
+                    key={item.id}
+                    avatar={
+                      "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
+                    }
+                    alt={"Reactjs"}
+                    title={item.name}
+                    subtitle={item.lastMensage}
+                    date={new Date()}
+                    unread={0}
+                    onClick={() => createChat(item.id)}
+                  />
+                ))}
+          </label>
+        </dl>
       </div>
     </div>
   );

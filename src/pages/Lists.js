@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -8,7 +8,7 @@ import { ChatItem } from "react-chat-elements";
 import {} from "./style.css";
 import conversas from "../data/conversas.json";
 import { useAllocate } from "../context/allocate";
-import axios from'axios'
+import axios from "axios";
 
 function List() {
   let history = useHistory();
@@ -22,27 +22,37 @@ function List() {
   const redirectList = () => {
     history.push(`/list`);
   };
-  const redirectChat = (value) => {
-    history.push(`/chat/${value}`);
-  };
 
-  const {data,token,setData} = useAllocate()
+  function createChat(value) {
+    axios
+      .post(
+        "http://localhost:3312/chat/createchat",
+        {
+          userId: value,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+          },
+        }
+      )
+      .then((resposta) => history.push(`/chat/${resposta.data.chat.id}`));
+  }
+
+  const { data, token, setData } = useAllocate();
   const [atualizacao, setAtualizacao] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
+  const [dev, setdev] = useState("");
 
   const reserch = (contato) => {
-    setAtualizacao(
-      data.filter((value) => value.name.includes(pesquisa))
-    );
+    setAtualizacao(data.filter((value) => value.name.includes(pesquisa)));
   };
 
-  let identificar = useParams();
- 
 
-  console.log("atualizacao-->",atualizacao)
-  console.log("pesquisa-->",pesquisa)
-  console.log("-->",)
- 
+  
+
+  console.log("atualizacao-->", atualizacao);
+  console.log("pesquisa-->", pesquisa);
 
   return (
     <div className="listMain">
@@ -69,7 +79,7 @@ function List() {
           <dl>
             <label>
               <div>
-                {/* {atualizacao.length === 0
+                {atualizacao.length === 0
                   ? data.map((item) => (
                       <ChatItem
                         key={item.id}
@@ -81,7 +91,7 @@ function List() {
                         subtitle={item.lastMensage}
                         date={new Date()}
                         unread={0}
-                        onClick={() => redirectChat(item.id)}
+                        onClick={() => createChat(item.id)}
                       />
                     ))
                   : atualizacao.map((item) => (
@@ -95,9 +105,9 @@ function List() {
                         subtitle={item.lastMensage}
                         date={new Date()}
                         unread={0}
-                        onClick={() => redirectChat(item.id)}
+                        onClick={() => createChat(item.id)}
                       />
-                    ))} */}
+                    ))}
               </div>
             </label>
           </dl>
