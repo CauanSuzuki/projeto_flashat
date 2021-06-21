@@ -55,18 +55,8 @@ function Cadastro({ children }) {
               placeholder="phone number"
               onChange={formik.handleChange}
               value={formik.values.phone}
+              data-teste="inputPhone"
             />
-
-            {/* <div className={classes.root}>
-              <InputLabel htmlFor="formatted-text-mask-input">PHONE</InputLabel>
-              <Input
-                value={values.textmask}
-                onChange={handleChange}
-                name="textmask"
-                id="formatted-text-mask-input"
-                inputComponent={TextMaskCustom}
-              />
-            </div> */}
 
             <br></br>
             <br></br>
@@ -79,6 +69,7 @@ function Cadastro({ children }) {
               placeholder="user name require"
               onChange={formik.handleChange}
               value={formik.values.name}
+              data-teste="inputName"
             />
 
             <br></br>
@@ -96,6 +87,7 @@ function Cadastro({ children }) {
               mask="_"
               onChange={formik.handleChange}
               value={formik.values.password}
+              data-teste="inputPassword"
             />
 
             <br></br>
@@ -109,6 +101,7 @@ function Cadastro({ children }) {
               placeholder="enter an valid email"
               onChange={formik.handleChange}
               value={formik.values.email}
+              data-teste="inputEmail"
             />
 
             <br></br>
@@ -122,15 +115,6 @@ function Cadastro({ children }) {
               type="submit"
             >
               Confirm
-            </Button>
-
-            <Button
-              variant="outlined"
-              size="small"
-              color="primary"
-              onClick={() => redirecionarHome()}
-            >
-              Login
             </Button>
           </form>
         </div>

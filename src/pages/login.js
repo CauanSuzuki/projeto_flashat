@@ -46,6 +46,7 @@ function Login({ children }) {
             label="LOGIN"
             placeholder="YOUR NUMBER"
             onChange={(event) => setLogin(event.target.value)}
+            data-teste="inputLogin"
           />
 
           <TextField
@@ -57,6 +58,7 @@ function Login({ children }) {
             allowEmptyFormatting
             mask="_"
             onChange={(event) => setSenha(event.target.value)}
+            data-teste="inputSenha"
           />
 
 

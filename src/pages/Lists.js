@@ -10,6 +10,7 @@ import conversas from "../data/conversas.json";
 import { useAllocate } from "../context/allocate";
 import axios from "axios";
 
+
 function List() {
   let history = useHistory();
 
@@ -39,17 +40,32 @@ function List() {
       .then((resposta) => history.push(`/chat/${resposta.data.chat.id}`));
   }
 
-  const { data, token, setData } = useAllocate();
+  const { data, token, setData, } = useAllocate();
   const [atualizacao, setAtualizacao] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
-  const [dev, setdev] = useState("");
+  const [dadosLastMessage, setdadosLastMessage] = useState([]);
 
   const reserch = (contato) => {
     setAtualizacao(data.filter((value) => value.name.includes(pesquisa)));
   };
 
-
-  
+  useEffect(() => {
+    async function showChats() {
+      axios
+        .get(`http://localhost:3312/chat/showchats`, {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+          },
+        })
+        .then(function(result) {
+          console.log(result.data[0].message[0].text);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
+    }
+    showChats();
+  }, []);
 
   console.log("atualizacao-->", atualizacao);
   console.log("pesquisa-->", pesquisa);
