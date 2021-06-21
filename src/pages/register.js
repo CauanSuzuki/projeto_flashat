@@ -36,6 +36,7 @@ function Cadastro({ children }) {
       })
       .then((resposta) => {
         setToken(resposta.data);
+        localStorage.setItem("token", resposta.data.token);
         history.push("/");
       });
   }

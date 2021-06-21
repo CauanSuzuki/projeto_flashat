@@ -10,6 +10,7 @@ export function AllocateProvider({ children }) {
   const [atualizacao, setAtualizacao] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
   const [dadosOtherUser, setdadosOtherUser] = useState([]);
+  const [listaConversas, setListaConversas] = useState([]);
 
   return (
     <allocateContext.Provider
@@ -30,6 +31,8 @@ export function AllocateProvider({ children }) {
         setPesquisa,
         dadosOtherUser,
         setdadosOtherUser,
+        listaConversas,
+        setListaConversas,
       }}
     >
       {children}

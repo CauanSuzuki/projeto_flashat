@@ -10,7 +10,6 @@ import conversas from "../data/conversas.json";
 import { useAllocate } from "../context/allocate";
 import axios from "axios";
 
-
 function List() {
   let history = useHistory();
 
@@ -40,10 +39,15 @@ function List() {
       .then((resposta) => history.push(`/chat/${resposta.data.chat.id}`));
   }
 
-  const { data, token, setData, } = useAllocate();
+  const {
+    data,
+    token,
+    setData,
+    listaConversas,
+    setListaConversas,
+  } = useAllocate();
   const [atualizacao, setAtualizacao] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
-  const [dadosLastMessage, setdadosLastMessage] = useState([]);
 
   const reserch = (contato) => {
     setAtualizacao(data.filter((value) => value.name.includes(pesquisa)));
@@ -51,14 +55,15 @@ function List() {
 
   useEffect(() => {
     async function showChats() {
-      axios
+      await axios
         .get(`http://localhost:3312/chat/showchats`, {
           headers: {
             Authorization: `Bearer ${token.token}`,
           },
         })
         .then(function(result) {
-          console.log(result.data[0].message[0].text);
+          setListaConversas(result.data);
+          console.log("result show chats", result.data);
         })
         .catch(function(error) {
           console.log(error);
@@ -69,6 +74,7 @@ function List() {
 
   console.log("atualizacao-->", atualizacao);
   console.log("pesquisa-->", pesquisa);
+  console.log("listaConversas-->", listaConversas);
 
   return (
     <div className="listMain">
@@ -96,7 +102,7 @@ function List() {
             <label>
               <div>
                 {atualizacao.length === 0
-                  ? data.map((item) => (
+                  ? listaConversas.map((item) => (
                       <ChatItem
                         key={item.id}
                         avatar={

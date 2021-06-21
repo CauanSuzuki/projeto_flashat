@@ -29,7 +29,7 @@ function App() {
             exact
             path="/"
             render={(props) =>
-              !token ? <Redirect to="/login" /> : <PageList {...props} />
+              !localStorage.getItem("token") ? <Redirect to="/login" /> : <PageList {...props} />
             }
           ></Route>
         </Switch>
