@@ -8,7 +8,7 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 function Cadastro({ children }) {
-  const { senha, setSenha, login, setLogin, setToken } = useAllocate();
+  const { setToken } = useAllocate();
   const formik = useFormik({
     initialValues: {
       phone: "",
@@ -22,9 +22,6 @@ function Cadastro({ children }) {
     },
   });
   let history = useHistory();
-  const redirecionarHome = () => {
-    history.push("/login");
-  };
 
   function reserch(phone, name, password, email) {
     axios

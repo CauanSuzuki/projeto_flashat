@@ -12,10 +12,8 @@ import PageContacts from "./pages/contacts";
 import PageAccount from "./pages/account";
 import PageLogin from "./pages/login";
 import PageRegister from "./pages/register";
-import { useAllocate } from "./context/allocate";
 
 function App() {
-  const {  token } = useAllocate();
   return (
     <Router>
         <Switch>

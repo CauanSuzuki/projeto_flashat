@@ -1,63 +1,32 @@
 import React, { useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import TextField from "@material-ui/core/TextField";
 import "react-chat-elements/dist/main.css";
 import { ChatItem } from "react-chat-elements";
 import {} from "./style.css";
-import conversas from "../data/conversas.json";
 import axios from "axios";
 import { useAllocate } from "../context/allocate";
 
 function Contacts({ children }) {
   let history = useHistory();
+
   const redirectContacts = () => {
     history.push(`/contacts`);
   };
+
   const redirectAccount = () => {
     history.push(`/account`);
   };
+
   const redirectList = () => {
     history.push(`/list`);
   };
 
-  function createChat(value) {
-    axios
-      .post(
-        "http://localhost:3312/chat/createchat",
-        { userId: value },
-        {
-          headers: {
-            Authorization: `Bearer ${token.token}`,
-          },
-        }
-      )
-      .then((resposta) => {
-        console.log("resp -->", resposta)
-        setdadosOtherUser(resposta.data.otherUser);
-        history.push(`/chat/${resposta.data.chat.id}`);
-      });
-  }
-
-  let identificar = useParams();
-  const {
-    senha,
-    data,
-    token,
-    touch,
-    setSenha,
-    login,
-    setLogin,
-    setData,
-    setToken,
-    atualizacao,
-    setAtualizacao,
-    pesquisa,
-    setPesquisa,
-    dadosOtherUser,
-    setdadosOtherUser,
-  } = useAllocate();
+  const reserch = (contato) => {
+    setAtualizacao(data.filter((value) => value.name.includes(pesquisa)));
+  };
 
   useEffect(() => {
     async function showContact() {
@@ -77,11 +46,34 @@ function Contacts({ children }) {
     showContact();
   }, []);
 
-  const reserch = (contato) => {
-    setAtualizacao(data.filter((value) => value.name.includes(pesquisa)));
-  };
+  function createChat(value) {
+    axios
+      .post(
+        "http://localhost:3312/chat/createchat",
+        { userId: value },
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+          },
+        }
+      )
+      .then((resposta) => {
+        console.log("resp -->", resposta);
+        setdadosOtherUser(resposta.data.otherUser);
+        history.push(`/chat/${resposta.data.chat.id}`);
+      });
+  }
 
-  console.log("data-->", data);
+  const {
+    data,
+    token,
+    setData,
+    atualizacao,
+    setAtualizacao,
+    pesquisa,
+    setPesquisa,
+    setdadosOtherUser,
+  } = useAllocate();
 
   return (
     <div className="listMain">

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
@@ -38,6 +38,20 @@ const useStyles = makeStyles((theme) => ({
 function Account() {
   const { token, touch, setTouch } = useAllocate();
 
+  let history = useHistory();
+
+  const redirectContacts = () => {
+    history.push(`/contacts`);
+  };
+  const redirectAccount = () => {
+    history.push(`/account`);
+  };
+  const redirectList = () => {
+    history.push(`/list`);
+  };
+
+  const classes = useStyles();
+
   useEffect(() => {
     async function myStatus() {
       await axios
@@ -55,23 +69,7 @@ function Account() {
     }
     myStatus();
   }, []);
-  let history = useHistory();
 
-  const redirectContacts = () => {
-    history.push(`/contacts`);
-  };
-  const redirectAccount = () => {
-    history.push(`/account`);
-  };
-  const redirectList = () => {
-    history.push(`/list`);
-  };
-
-  const classes = useStyles();
-
-
-  console.log("touch -->", touch);
-  console.log("token -->", token);
 
   return (
     <div className="accountMain">
@@ -95,26 +93,15 @@ function Account() {
               R
             </Avatar>
           }
-          // action={
-          //   <IconButton aria-label="settings">
-          //     <MoreVertIcon />
-          //   </IconButton>
-          // }
           title={touch.name}
           subheader={touch.email}
         />
 
         <CardContent>
           <Typography variant="body2" color="textSecondary" component="p">
-            {/* <label>
-              <div className="accountName">name: {touch.name}</div>
-            </label> */}
             <label>
               <div className="accountPhone">phone: {touch.phone} </div>
             </label>{" "}
-            {/* <label>
-              <div className="accountEmail">email: {touch.email}</div>
-            </label> */}
           </Typography>
         </CardContent>
       </Card>

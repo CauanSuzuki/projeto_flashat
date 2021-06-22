@@ -6,8 +6,6 @@ import Button from "@material-ui/core/Button";
 import { makeStyles } from "@material-ui/core/styles";
 import ScrollToBottom from "react-scroll-to-bottom";
 import axios from "axios";
-import mensagens from "../data/mensagens.json";
-import conversas from "../data/conversas.json";
 import { useAllocate } from "../context/allocate";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +25,6 @@ function Chat() {
   };
 
   const [chat, setChat] = useState([]);
-  const [mensage, setMensage] = useState("");
 
   const formik = useFormik({
     initialValues: {
@@ -42,11 +39,7 @@ function Chat() {
 
   const classes = useStyles();
 
-  const { token, data, setData, touch, dadosOtherUser } = useAllocate();
-
-  function cancelCourse() {
-    document.getElementById("chatBoxIn").reset();
-  }
+  const { token, touch, dadosOtherUser } = useAllocate();
 
   let identificar = useParams();
 
@@ -90,15 +83,13 @@ function Chat() {
       .then((resposta) => console.log(resposta.data));
   }
 
-  console.log("chat-->", chat);
-  console.log("TOUCH -->", touch);
-  console.log("token -->", token);
-  console.log("otherUser -->", dadosOtherUser)
+  function cancelCourse() {
+    document.getElementById("chatBoxIn").reset();
+  }
 
   return (
     <div className="chatMain">
       <div className="Nav">
-        
         <Button
           type="submit"
           value="send"
@@ -119,7 +110,7 @@ function Chat() {
       >
         <div className="chatPlace">
           {chat.map((item) =>
-            item.userId == token.user.id ? (
+            item.userId === token.user.id ? (
               <div className="externMsg">{item.text}</div>
             ) : (
               <div className="myMsg">{item.text}</div>

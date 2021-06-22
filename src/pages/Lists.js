@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Button from "@material-ui/core/Button";
 import ButtonGroup from "@material-ui/core/ButtonGroup";
 import TextField from "@material-ui/core/TextField";
 import "react-chat-elements/dist/main.css";
 import { ChatItem } from "react-chat-elements";
 import {} from "./style.css";
-import conversas from "../data/conversas.json";
 import { useAllocate } from "../context/allocate";
 import axios from "axios";
 
@@ -23,29 +22,7 @@ function List() {
     history.push(`/list`);
   };
 
-  function createChat(value) {
-    axios
-      .post(
-        "http://localhost:3312/chat/createchat",
-        {
-          userId: value,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${token.token}`,
-          },
-        }
-      )
-      .then((resposta) => history.push(`/chat/${resposta.data.chat.id}`));
-  }
-
-  const {
-    data,
-    token,
-    setData,
-    listaConversas,
-    setListaConversas,
-  } = useAllocate();
+  const { data, token, listaConversas, setListaConversas } = useAllocate();
   const [atualizacao, setAtualizacao] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
 
@@ -72,9 +49,21 @@ function List() {
     showChats();
   }, []);
 
-  console.log("atualizacao-->", atualizacao);
-  console.log("pesquisa-->", pesquisa);
-  console.log("listaConversas-->", listaConversas);
+  function createChat(value) {
+    axios
+      .post(
+        "http://localhost:3312/chat/createchat",
+        {
+          userId: value,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+          },
+        }
+      )
+      .then((resposta) => history.push(`/chat/${resposta.data.chat.id}`));
+  }
 
   return (
     <div className="listMain">

@@ -7,16 +7,13 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
 function Login({ children }) {
-  const { senha, setSenha, login, setLogin, setToken, token } = useAllocate();
+  const { senha, setSenha, login, setLogin, setToken} = useAllocate();
 
   let history = useHistory();
 
   const redirectRegister = () => {
     history.push(`/register`);
   };
-
-  const loginLocal = localStorage.getItem("phone");
-  const senhaLocal = localStorage.getItem("password");
 
   function checkIn(login, senha) {
     axios
@@ -31,10 +28,6 @@ function Login({ children }) {
         history.push("/");
       });
   }
-  console.log("senha-->", senha);
-  console.log("login-->", login);
-  console.log("token-->", token.token);
-  console.log("localS token -->", localStorage.getItem("token"));
 
   return (
     <div className="login">
