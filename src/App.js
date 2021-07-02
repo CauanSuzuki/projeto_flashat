@@ -1,5 +1,5 @@
 import "./App.css";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,23 +14,36 @@ import PageLogin from "./pages/login";
 import PageRegister from "./pages/register";
 
 function App() {
+  useEffect(() => {
+    Notification.requestPermission();
+    if (Notification.permission === "granted") {
+      new Notification("notificacaoTeste", {
+          body: "minha primeira notificação"
+      });
+  }
+  }, []);
+
   return (
     <Router>
-        <Switch>
-          <Route exact path="/chat/:idChat" component={PageChat}></Route>
-          <Route exact path="/list" component={PageList}></Route>
-          <Route exact path="/contacts" component={PageContacts}></Route>
-          <Route exact path="/account" component={PageAccount}></Route>
-          <Route exact path="/register" component={PageRegister}></Route>
-          <Route exact path="/login" component={PageLogin}></Route>
-          <Route
-            exact
-            path="/"
-            render={(props) =>
-              !localStorage.getItem("token") ? <Redirect to="/login" /> : <PageList {...props} />
-            }
-          ></Route>
-        </Switch>
+      <Switch>
+        <Route exact path="/chat/:idChat" component={PageChat}></Route>
+        <Route exact path="/list" component={PageList}></Route>
+        <Route exact path="/contacts" component={PageContacts}></Route>
+        <Route exact path="/account" component={PageAccount}></Route>
+        <Route exact path="/register" component={PageRegister}></Route>
+        <Route exact path="/login" component={PageLogin}></Route>
+        <Route
+          exact
+          path="/"
+          render={(props) =>
+            !localStorage.getItem("token") ? (
+              <Redirect to="/login" />
+            ) : (
+              <PageList {...props} />
+            )
+          }
+        ></Route>
+      </Switch>
     </Router>
   );
 }

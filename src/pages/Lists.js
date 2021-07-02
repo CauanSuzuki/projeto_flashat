@@ -8,6 +8,8 @@ import { ChatItem } from "react-chat-elements";
 import {} from "./style.css";
 import { useAllocate } from "../context/allocate";
 import axios from "axios";
+import alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.css";
 
 function List() {
   let history = useHistory();
@@ -22,10 +24,16 @@ function List() {
     history.push(`/list`);
   };
 
-  const { data, token, listaConversas, setListaConversas } = useAllocate();
+  const {
+    data,
+    token,
+    listaConversas,
+    setListaConversas,
+    setdadosOtherUser,
+  } = useAllocate();
+
   const [atualizacao, setAtualizacao] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
-
   const reserch = (contato) => {
     setAtualizacao(data.filter((value) => value.name.includes(pesquisa)));
   };
@@ -40,7 +48,10 @@ function List() {
         })
         .then(function(result) {
           setListaConversas(result.data);
-          console.log("result show chats", result.data);
+          funcao1();
+          setTimeout(() => {
+            showChats();
+          }, 30000);
         })
         .catch(function(error) {
           console.log(error);
@@ -49,20 +60,36 @@ function List() {
     showChats();
   }, []);
 
-  function createChat(value) {
-    axios
+  async function createChat(value) {
+    await axios
       .post(
         "http://localhost:3312/chat/createchat",
-        {
-          userId: value,
-        },
+        { userId: value },
         {
           headers: {
             Authorization: `Bearer ${token.token}`,
           },
         }
       )
-      .then((resposta) => history.push(`/chat/${resposta.data.chat.id}`));
+      .then((resposta) => {
+        console.log("resp -->", resposta);
+        setdadosOtherUser(resposta.data);
+        history.push(`/chat/${resposta.data.chat.id}`);
+      });
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  async function funcao1(item) {
+    var notification = alertify
+      .notify("lastMessage", "success", 2, function() {
+        console.log(item);
+      })
+      .dismissOthers();
+    // notification.callback = async function(isClicked) {
+    //   if (isClicked) history.push(`/chat/${dataChat}`);
+    //   else console.log("notification auto-dismissed");
+    // };
   }
 
   return (
@@ -98,8 +125,8 @@ function List() {
                           "https://static.clubedaanamariabraga.com.br/wp-content/uploads/2021/04/frango-assado-em-pe.jpg"
                         }
                         alt={"Reactjs"}
-                        title={item.name}
-                        subtitle={item.lastMensage}
+                        title={item.otherUser.nome}
+                        subtitle={item.lastMessage}
                         date={new Date()}
                         unread={0}
                         onClick={() => createChat(item.id)}

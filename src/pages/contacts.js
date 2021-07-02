@@ -38,6 +38,9 @@ function Contacts({ children }) {
         })
         .then(function(result) {
           setData(result.data);
+          setTimeout(() => {
+            showContact();
+          }, 30000);
         })
         .catch(function(error) {
           console.log(error);
@@ -46,8 +49,8 @@ function Contacts({ children }) {
     showContact();
   }, []);
 
-  function createChat(value) {
-    axios
+  async function createChat(value) {
+    await axios
       .post(
         "http://localhost:3312/chat/createchat",
         { userId: value },
@@ -59,7 +62,7 @@ function Contacts({ children }) {
       )
       .then((resposta) => {
         console.log("resp -->", resposta);
-        setdadosOtherUser(resposta.data.otherUser);
+        setdadosOtherUser(resposta.data);
         history.push(`/chat/${resposta.data.chat.id}`);
       });
   }
@@ -111,7 +114,6 @@ function Contacts({ children }) {
                     }
                     alt={"Reactjs"}
                     title={item.name}
-                    subtitle={item.lastMensage}
                     date={new Date()}
                     unread={0}
                     onClick={() => createChat(item.id)}

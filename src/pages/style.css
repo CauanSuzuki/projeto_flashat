@@ -182,20 +182,3 @@ form > div {
   margin: 0;
 }
 /* //////////////////////////////////////////////////////////////////////////////// */
-/* .listMain {
-  width: 100%;
-  height: 100vh;
-  display: grid;
-  grid-template-rows: 100px auto;
-  grid-template-areas:
-    "head"
-    "contatos";
-}
-
-.head {
-  grid-area: head;
-}
-
-.contatos {
-  grid-area: contatos;
-} */

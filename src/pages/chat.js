@@ -39,9 +39,17 @@ function Chat() {
 
   const classes = useStyles();
 
-  const { token, touch, dadosOtherUser } = useAllocate();
+  const { token, dadosOtherUser } = useAllocate();
 
   let identificar = useParams();
+
+  const [dados, setDados] = useState([dadosOtherUser]);
+
+  const lastMessage = chat[chat.length - 1];
+
+  function search() {
+    return chat.filter((item) => item[item.length - 1]);
+  }
 
   useEffect(() => {
     async function showMessage() {
@@ -58,7 +66,7 @@ function Chat() {
           setChat(result.data);
           setTimeout(() => {
             showMessage();
-          }, 30000);
+          }, 3000);
         })
         .catch(function(error) {
           console.log(error);
@@ -80,7 +88,7 @@ function Chat() {
           },
         }
       )
-      .then((resposta) => console.log(resposta.data));
+      .then((resposta) => console.log("send message -->", resposta.data));
   }
 
   function cancelCourse() {
@@ -100,7 +108,7 @@ function Chat() {
         >
           RETURN
         </Button>
-        {dadosOtherUser.name}
+nome
       </div>
 
       <ScrollToBottom

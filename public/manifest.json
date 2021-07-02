@@ -21,5 +21,19 @@
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "options": {
+    "assets":[
+      "src/favicon.ico",
+      "src/assets"
+    ],
+    "styles":[
+      "src/styles.css",
+      "./node_modules/alertifyjs/build/css/alertify.min.css",
+      ",/node_modules/alertifyjs/build/css/themes/bootstrap.min.js"
+    ],
+    "scripts": [
+      "./node_modules/alertifyjs/build/alertify.min.js"
+    ]
+  }
 }
