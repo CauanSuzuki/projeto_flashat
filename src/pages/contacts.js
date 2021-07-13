@@ -61,7 +61,7 @@ function Contacts({ children }) {
         }
       )
       .then((resposta) => {
-        console.log("resp -->", resposta);
+        // console.log("resp -->", resposta);
         setdadosOtherUser(resposta.data);
         history.push(`/chat/${resposta.data.chat.id}`);
       });

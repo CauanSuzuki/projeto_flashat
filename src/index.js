@@ -3,12 +3,15 @@ import ReactDOM from "react-dom";
 import "./index.css";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
-import {AllocateProvider} from "./context/allocate"
+import { AllocateProvider } from "./context/allocate";
+import {SocketProvider} from "./context/socket.io"
 
 ReactDOM.render(
   <React.StrictMode>
     <AllocateProvider>
-      <App />
+      <SocketProvider>
+        <App />
+      </SocketProvider>
     </AllocateProvider>
   </React.StrictMode>,
   document.getElementById("root")

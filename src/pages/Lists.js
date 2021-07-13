@@ -10,6 +10,7 @@ import { useAllocate } from "../context/allocate";
 import axios from "axios";
 import alertify from "alertifyjs";
 import "alertifyjs/build/css/alertify.css";
+import { io } from "socket.io-client";
 
 function List() {
   let history = useHistory();
@@ -30,6 +31,7 @@ function List() {
     listaConversas,
     setListaConversas,
     setdadosOtherUser,
+    chat
   } = useAllocate();
 
   const [atualizacao, setAtualizacao] = useState([]);
@@ -37,6 +39,10 @@ function List() {
   const reserch = (contato) => {
     setAtualizacao(data.filter((value) => value.name.includes(pesquisa)));
   };
+
+  const lastMessage = chat[chat.length - 1];
+
+  const [read, setRead] = useState([]);
 
   useEffect(() => {
     async function showChats() {
@@ -48,7 +54,7 @@ function List() {
         })
         .then(function(result) {
           setListaConversas(result.data);
-          funcao1();
+          // funcao1();
           setTimeout(() => {
             showChats();
           }, 30000);
@@ -72,25 +78,41 @@ function List() {
         }
       )
       .then((resposta) => {
-        console.log("resp -->", resposta);
+        // console.log("resp -->", resposta);
         setdadosOtherUser(resposta.data);
         history.push(`/chat/${resposta.data.chat.id}`);
       });
   }
 
+  
+
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  async function funcao1(item) {
-    var notification = alertify
-      .notify("lastMessage", "success", 2, function() {
-        console.log(item);
-      })
-      .dismissOthers();
+  // async function funcao1(item) {
+  //   var notification = alertify
+  //     .notify("lastMessage", "success", 2, function() {
+  //       console.log(item);
+  //     })
+  //     .dismissOthers();
     // notification.callback = async function(isClicked) {
     //   if (isClicked) history.push(`/chat/${dataChat}`);
     //   else console.log("notification auto-dismissed");
     // };
-  }
+  // }
+
+  // useEffect(() => {
+  //   if (
+  //     lastMessage !== undefined &&
+  //     Notification.permission === "granted" &&
+  //     lastMessage.userId !== token.user.id &&
+  //     lastMessage.id !== read
+  //   ) {
+  //     new Notification(lastMessage.userId, {
+  //       body: lastMessage.text,
+  //     });
+  //     setRead(lastMessage.id);
+  //   }
+  // }, [lastMessage]);
 
   return (
     <div className="listMain">

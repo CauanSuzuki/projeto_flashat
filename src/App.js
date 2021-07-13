@@ -12,16 +12,14 @@ import PageContacts from "./pages/contacts";
 import PageAccount from "./pages/account";
 import PageLogin from "./pages/login";
 import PageRegister from "./pages/register";
+import { useSocket } from "./context/socket.io";
 
 function App() {
   useEffect(() => {
     Notification.requestPermission();
-    if (Notification.permission === "granted") {
-      new Notification("notificacaoTeste", {
-          body: "minha primeira notificação"
-      });
-  }
   }, []);
+
+  const socket = useSocket()
 
   return (
     <Router>

@@ -11,8 +11,13 @@ import CardContent from "@material-ui/core/CardContent";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
+import { useFormik } from "formik";
 import Input from "@material-ui/core/Input";
 import TextField from "@material-ui/core/TextField";
+import IconButton from "@material-ui/core/IconButton";
+import DeleteIcon from "@material-ui/icons/Delete";
+import ArrowDownwardIcon from "@material-ui/icons/ArrowDownward";
+import SaveIcon from "@material-ui/icons/Save";
 
 const useStyle = makeStyles((theme) => ({
   root: {
@@ -24,7 +29,7 @@ const useStyle = makeStyles((theme) => ({
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+    maxWidth: 500,
   },
   media: {
     height: 0,
@@ -42,6 +47,15 @@ const useStyles = makeStyles((theme) => ({
   },
   avatar: {
     backgroundColor: red[500],
+  },
+}));
+
+const useStyl = makeStyles((theme) => ({
+  margin: {
+    margin: theme.spacing(1),
+  },
+  extendedIcon: {
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -66,6 +80,8 @@ function Account() {
 
   const [hid, setHid] = useState(true);
 
+  const clas = useStyl();
+
   function hidden() {
     hid === true ? setHid(false) : setHid(true);
   }
@@ -75,7 +91,7 @@ function Account() {
       await axios
         .get("http://localhost:3312/user/showUser", {
           headers: {
-            Authorization: `token ${token.token}`,
+            Authorization: `bearer ${token.token}`,
           },
         })
         .then(function(result) {
@@ -90,36 +106,37 @@ function Account() {
 
   //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-  async function alterar() {
+  async function alterar(item) {
     await axios
-      .put("http://localhost:3312/user/modifyUser", {
-        headers: {
-          Authorization: `token ${token.token}`,
+      .put(
+        "http://localhost:3312/user/modifyUser",
+        {
+          name: item.name,
+          email: item.email,
         },
-        // nome: formik.values.nome,
-        // modelo: formik.values.modelo,
-        // preco: formik.values.preco,
-        // quantidade: formik.values.quantidade,
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${token.token}`,
+          },
+        }
+      )
       .then(function(result) {
-        console.log(result.data);
+        setTouch(result.data);
       })
       .catch(function(error) {
         console.log(error);
       });
   }
-  // const formik = useFormik({
-  //   initialValues: {
-  //     // nome: rotativo.nome,
-  //     // modelo: rotativo.modelo,
-  //     // preco: rotativo.preco,
-  //     // quantidade: rotativo.quantidade,
-  //   },
-  //   enableReinitialize: true,
-  //   onSubmit: (identificar) => {
-  //     funcaoAlterar(identificar);
-  //   },
-  // });
+  const formik = useFormik({
+    initialValues: {
+      name: touch.name,
+      email: touch.email,
+    },
+    enableReinitialize: true,
+    onSubmit: (dados) => {
+      alterar(dados);
+    },
+  });
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   if (!("serviceWorker" in navigator)) {
@@ -129,7 +146,6 @@ function Account() {
   if (!("PushManager" in window)) {
     return;
   }
-  console.log("touch -->",touch)
 
   return (
     <div className="accountMain">
@@ -162,16 +178,55 @@ function Account() {
             <label>
               <div className="accountPhone">phone: {touch.phone} </div>
             </label>{" "}
+            <IconButton
+              aria-label="delete"
+              className={classes.margin}
+              size="small"
+              onClick={() => hidden()}
+            >
+              <ArrowDownwardIcon fontSize="inherit" />
+            </IconButton>
           </Typography>
         </CardContent>
       </Card>
-      <button onClick={() => hidden()}>Alterar</button>
-      <form className={classe.root} noValidate autoComplete="off" hidden={hid}>
-        <TextField id="nome" label="Name" placeholder={touch.name} type="text"/>
+
+      <form
+        className={classe.root}
+        noValidate
+        autoComplete="off"
+        hidden={hid}
+        onSubmit={formik.handleSubmit}
+      >
+        <TextField
+          id="name"
+          label="Name"
+          name="name"
+          type="text"
+          onChange={formik.handleChange}
+          value={formik.values.name}
+        />
         <br></br>
+
         {/* <TextField id="picture" label="Picture"  value={touch.photo} /> */}
-        <br></br>
-        <TextField id="Email" label="Email" value={touch.email} />
+        {/* <br></br> */}
+        <TextField
+          id="email"
+          label="email"
+          name="email"
+          onChange={formik.handleChange}
+          value={formik.values.email}
+        />
+
+        <Button
+          variant="contained"
+          color="primary"
+          size="small"
+          className={classes.button}
+          startIcon={<SaveIcon />}
+          type="submit"
+        >
+          Save
+        </Button>
       </form>
     </div>
   );

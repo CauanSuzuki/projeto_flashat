@@ -24,8 +24,6 @@ function Chat() {
     history.push(`/list`);
   };
 
-  const [chat, setChat] = useState([]);
-
   const formik = useFormik({
     initialValues: {
       mensage: "",
@@ -39,13 +37,15 @@ function Chat() {
 
   const classes = useStyles();
 
-  const { token, dadosOtherUser } = useAllocate();
+  const { token, dadosOtherUser, chat, setChat } = useAllocate();
 
   let identificar = useParams();
 
   const [dados, setDados] = useState([dadosOtherUser]);
 
   const lastMessage = chat[chat.length - 1];
+
+  const [read, setRead] = useState([]);
 
   function search() {
     return chat.filter((item) => item[item.length - 1]);
@@ -63,7 +63,8 @@ function Chat() {
           }
         )
         .then(function(result) {
-          setChat(result.data);
+          setChat(result.data.showMessage);
+          // console.log("result -->",result.data.showMessage)
           setTimeout(() => {
             showMessage();
           }, 3000);
@@ -95,6 +96,20 @@ function Chat() {
     document.getElementById("chatBoxIn").reset();
   }
 
+  useEffect(() => {
+    if (
+      lastMessage !== undefined &&
+      Notification.permission === "granted" &&
+      lastMessage.userId !== token.user.id &&
+      lastMessage.id !== read
+    ) {
+      new Notification(lastMessage.userId, {
+        body: lastMessage.text,
+      });
+      setRead(lastMessage.id);
+    }
+  }, [lastMessage]);
+
   return (
     <div className="chatMain">
       <div className="Nav">
@@ -108,7 +123,7 @@ function Chat() {
         >
           RETURN
         </Button>
-nome
+        {dadosOtherUser.otherUser.name}
       </div>
 
       <ScrollToBottom
