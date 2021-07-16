@@ -13,6 +13,8 @@ import "alertifyjs/build/css/alertify.css";
 import { io } from "socket.io-client";
 
 function List() {
+
+
   let history = useHistory();
 
   const redirectContacts = () => {
@@ -31,7 +33,9 @@ function List() {
     listaConversas,
     setListaConversas,
     setdadosOtherUser,
-    chat
+    chat,
+    lastMessage,
+    setChat
   } = useAllocate();
 
   const [atualizacao, setAtualizacao] = useState([]);
@@ -40,7 +44,7 @@ function List() {
     setAtualizacao(data.filter((value) => value.name.includes(pesquisa)));
   };
 
-  const lastMessage = chat[chat.length - 1];
+  // const endMessage = lastMessage[lastMessage.length - 1];
 
   const [read, setRead] = useState([]);
 
@@ -54,7 +58,6 @@ function List() {
         })
         .then(function(result) {
           setListaConversas(result.data);
-          // funcao1();
           setTimeout(() => {
             showChats();
           }, 30000);
@@ -78,7 +81,7 @@ function List() {
         }
       )
       .then((resposta) => {
-        // console.log("resp -->", resposta);
+        console.log("resposta contatos -->",resposta)
         setdadosOtherUser(resposta.data);
         history.push(`/chat/${resposta.data.chat.id}`);
       });
@@ -90,7 +93,7 @@ function List() {
 
   // async function funcao1(item) {
   //   var notification = alertify
-  //     .notify("lastMessage", "success", 2, function() {
+  //     .notify("endMessage", "success", 2, function() {
   //       console.log(item);
   //     })
   //     .dismissOthers();
@@ -102,18 +105,18 @@ function List() {
 
   // useEffect(() => {
   //   if (
-  //     lastMessage !== undefined &&
+  //     endMessage !== undefined &&
   //     Notification.permission === "granted" &&
-  //     lastMessage.userId !== token.user.id &&
-  //     lastMessage.id !== read
+  //     endMessage.userId !== token.user.id &&
+  //     endMessage.id !== read
   //   ) {
-  //     new Notification(lastMessage.userId, {
-  //       body: lastMessage.text,
+  //     new Notification(endMessage.userId, {
+  //       body: endMessage.text,
   //     });
-  //     setRead(lastMessage.id);
+  //     setRead(endMessage.id);
   //   }
-  // }, [lastMessage]);
-
+  // }, [endMessage]);
+console.log("token list-->",token)
   return (
     <div className="listMain">
       <nav>
@@ -151,7 +154,8 @@ function List() {
                         subtitle={item.lastMessage}
                         date={new Date()}
                         unread={0}
-                        onClick={() => createChat(item.id)}
+                        onClick={() => createChat(item.otherUser.userId)}
+                        
                       />
                     ))
                   : atualizacao.map((item) => (

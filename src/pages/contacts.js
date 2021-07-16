@@ -61,7 +61,7 @@ function Contacts({ children }) {
         }
       )
       .then((resposta) => {
-        // console.log("resp -->", resposta);
+        console.log("resposta contatos -->",resposta)
         setdadosOtherUser(resposta.data);
         history.push(`/chat/${resposta.data.chat.id}`);
       });
@@ -76,6 +76,9 @@ function Contacts({ children }) {
     pesquisa,
     setPesquisa,
     setdadosOtherUser,
+    setChat,
+    lastMessage,
+    setLastMessage,
   } = useAllocate();
 
   return (

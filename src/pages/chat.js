@@ -29,7 +29,6 @@ function Chat() {
       mensage: "",
     },
     onSubmit: async (value) => {
-      setChat([...chat, value]);
       sendMensage();
       cancelCourse();
     },
@@ -37,25 +36,28 @@ function Chat() {
 
   const classes = useStyles();
 
-  const { token, dadosOtherUser, chat, setChat } = useAllocate();
+  const {
+    token,
+    dadosOtherUser,
+    chat,
+    setChat,
+    lastMessage,
+    setLastMessage,
+  } = useAllocate();
 
   let identificar = useParams();
 
   const [dados, setDados] = useState([dadosOtherUser]);
 
-  const lastMessage = chat[chat.length - 1];
+  const endMessage = lastMessage[lastMessage.length - 1];
 
   const [read, setRead] = useState([]);
-
-  function search() {
-    return chat.filter((item) => item[item.length - 1]);
-  }
 
   useEffect(() => {
     async function showMessage() {
       await axios
         .get(
-          `http://localhost:3312/message/showMessage/${identificar.idChat}`,
+          `http://localhost:3312/message/showMessage/${dadosOtherUser?.chat?.id}`,
           {
             headers: {
               Authorization: `Bearer ${token.token}`,
@@ -63,11 +65,11 @@ function Chat() {
           }
         )
         .then(function(result) {
-          setChat(result.data.showMessage);
-          // console.log("result -->",result.data.showMessage)
-          setTimeout(() => {
-            showMessage();
-          }, 3000);
+          if (identificar.idChat == dadosOtherUser.chat.id) {
+            console.log("show-->", result);
+            setChat(result.data.showMessage);
+            setLastMessage(result.data.showMessage);
+          }
         })
         .catch(function(error) {
           console.log(error);
@@ -76,8 +78,8 @@ function Chat() {
     showMessage();
   }, []);
 
-  function sendMensage() {
-    axios
+  async function sendMensage() {
+    await axios
       .post(
         `http://localhost:3312/message/sendMessage/${identificar.idChat}`,
         {
@@ -89,27 +91,17 @@ function Chat() {
           },
         }
       )
-      .then((resposta) => console.log("send message -->", resposta.data));
+      .then((resposta) => {
+        setChat([...chat,resposta.data.result]);
+        // console.log("then post -->", resposta.data.result);
+      });
   }
 
   function cancelCourse() {
     document.getElementById("chatBoxIn").reset();
   }
 
-  useEffect(() => {
-    if (
-      lastMessage !== undefined &&
-      Notification.permission === "granted" &&
-      lastMessage.userId !== token.user.id &&
-      lastMessage.id !== read
-    ) {
-      new Notification(lastMessage.userId, {
-        body: lastMessage.text,
-      });
-      setRead(lastMessage.id);
-    }
-  }, [lastMessage]);
-
+  // console.log("identificar-->", identificar);
   return (
     <div className="chatMain">
       <div className="Nav">
@@ -123,7 +115,7 @@ function Chat() {
         >
           RETURN
         </Button>
-        {dadosOtherUser.otherUser.name}
+        {dadosOtherUser?.otherUser?.name}
       </div>
 
       <ScrollToBottom
@@ -133,7 +125,7 @@ function Chat() {
       >
         <div className="chatPlace">
           {chat.map((item) =>
-            item.userId === token.user.id ? (
+            item.userId == token.user.id ? (
               <div className="externMsg">{item.text}</div>
             ) : (
               <div className="myMsg">{item.text}</div>

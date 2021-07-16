@@ -19,7 +19,6 @@ function App() {
     Notification.requestPermission();
   }, []);
 
-  const socket = useSocket()
 
   return (
     <Router>

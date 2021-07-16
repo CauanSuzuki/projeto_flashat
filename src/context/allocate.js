@@ -1,17 +1,24 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
+import axios from "axios";
+
 const allocateContext = createContext();
 
 export function AllocateProvider({ children }) {
   const [data, setData] = useState([]);
   const [login, setLogin] = useState([]);
   const [senha, setSenha] = useState([]);
-  const [token, setToken] = useState("");
+  const [token, setToken] = useState({});
   const [touch, setTouch] = useState([]);
   const [atualizacao, setAtualizacao] = useState([]);
   const [pesquisa, setPesquisa] = useState("");
   const [dadosOtherUser, setdadosOtherUser] = useState([]);
   const [listaConversas, setListaConversas] = useState([]);
   const [chat, setChat] = useState([]);
+  const [lastMessage, setLastMessage] = useState([]);
+
+  useEffect(() => {
+   
+  }, []);
 
   return (
     <allocateContext.Provider
@@ -34,7 +41,10 @@ export function AllocateProvider({ children }) {
         setdadosOtherUser,
         listaConversas,
         setListaConversas,
-        chat, setChat
+        chat,
+        setChat,
+        lastMessage,
+        setLastMessage,
       }}
     >
       {children}
