@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { useHistory, useParams } from "react-router-dom";
-import {} from "./style.css";
-import { useFormik } from "formik";
-import Button from "@material-ui/core/Button";
-import { makeStyles } from "@material-ui/core/styles";
 import ScrollToBottom from "react-scroll-to-bottom";
+import Button from "@material-ui/core/Button";
 import axios from "axios";
+
+import { useHistory, useParams } from "react-router-dom";
+import { useFormik } from "formik";
+import { makeStyles } from "@material-ui/core/styles";
+
 import { useAllocate } from "../context/allocate";
+import {} from "./style.css";
 
 const useStyles = makeStyles((theme) => ({
   margin: {
@@ -43,6 +45,7 @@ function Chat() {
     setChat,
     lastMessage,
     setLastMessage,
+    setChatAtual,
   } = useAllocate();
 
   let identificar = useParams();
@@ -76,6 +79,8 @@ function Chat() {
         });
     }
     showMessage();
+
+    setChatAtual(identificar.idChat);
   }, []);
 
   async function sendMensage() {
@@ -92,7 +97,7 @@ function Chat() {
         }
       )
       .then((resposta) => {
-        setChat([...chat,resposta.data.result]);
+        setChat([...chat, resposta.data.result]);
         // console.log("then post -->", resposta.data.result);
       });
   }

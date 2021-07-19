@@ -86,6 +86,13 @@ function Account() {
     hid === true ? setHid(false) : setHid(true);
   }
 
+  function logout() {
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+
+    history.push("/login");
+  }
+
   useEffect(() => {
     async function myStatus() {
       await axios
@@ -138,7 +145,8 @@ function Account() {
     },
   });
 
-  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  const firstLetter = touch.name.substr(0, 1);
+
   if (!("serviceWorker" in navigator)) {
     return;
   }
@@ -146,6 +154,8 @@ function Account() {
   if (!("PushManager" in window)) {
     return;
   }
+
+  console.log("touch -->", firstLetter);
 
   return (
     <div className="accountMain">
@@ -166,7 +176,7 @@ function Account() {
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
-              R
+              {firstLetter}
             </Avatar>
           }
           title={touch.name}
@@ -188,6 +198,17 @@ function Account() {
             </IconButton>
           </Typography>
         </CardContent>
+
+        <Button
+          variant="contained"
+          color="secondary"
+          className={classes.button}
+          startIcon={<DeleteIcon />}
+          cursor="pointer"
+          onClick={logout}
+        >
+          Sair
+        </Button>
       </Card>
 
       <form

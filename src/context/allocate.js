@@ -1,5 +1,6 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import axios from "axios";
+import events from "../emitters/events";
 
 const allocateContext = createContext();
 
@@ -16,9 +17,31 @@ export function AllocateProvider({ children }) {
   const [chat, setChat] = useState([]);
   const [lastMessage, setLastMessage] = useState([]);
 
+  const [chatAtual, setChatAtual] = useState("");
+
   useEffect(() => {
-   
+    if (localStorage.getItem("token")) {
+      axios
+        .get("http://localhost:3312/user/showUser", {
+          headers: {
+            Authorization: `bearer ${localStorage.getItem("token")}`,
+          },
+        })
+        .then(function(result) {
+          //verificar quando tken é inválido
+          setToken({ token: localStorage.getItem("token"), user: result.data });
+          setTouch(result.data);
+        });
+    }
   }, []);
+
+  useEffect(() => {
+    events.on("nova-mensagem", function(data) {
+      if (data.chatId === Number(chatAtual)) {
+        setChat([...chat, data]);
+      }
+    });
+  }, [chat]);
 
   return (
     <allocateContext.Provider
@@ -45,6 +68,8 @@ export function AllocateProvider({ children }) {
         setChat,
         lastMessage,
         setLastMessage,
+        chatAtual,
+        setChatAtual,
       }}
     >
       {children}
