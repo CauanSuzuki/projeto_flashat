@@ -6,6 +6,20 @@ import {} from "./style.css";
 import { useAllocate } from "../context/allocate";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import { makeStyles } from "@material-ui/core/styles";
+import PhotoCamera from "@material-ui/icons/PhotoCamera";
+import IconButton from "@material-ui/core/IconButton";
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "& > *": {
+      margin: theme.spacing(1),
+    },
+  },
+  input: {
+    display: "none",
+  },
+}));
 
 function Cadastro({ children }) {
   const { setToken } = useAllocate();
@@ -22,6 +36,7 @@ function Cadastro({ children }) {
     },
   });
   let history = useHistory();
+  const classes = useStyles();
 
   function reserch(phone, name, password, email) {
     axios
@@ -45,6 +60,19 @@ function Cadastro({ children }) {
         <div className="adicionar">
           <form onSubmit={formik.handleSubmit}>
             <label htmlFor="nome"></label>
+            <input
+              accept="image/*"
+              className={classes.input}
+              id="contained-button-file"
+              multiple
+              type="file"
+            />
+            <label htmlFor="contained-button-file">
+              <Button variant="contained" color="primary" component="span">
+                Upload
+              </Button>
+            </label>
+            <br></br>
             <TextField
               id="phone"
               name="phone"
@@ -55,7 +83,6 @@ function Cadastro({ children }) {
               value={formik.values.phone}
               data-teste="inputPhone"
             />
-
             <br></br>
             <br></br>
             <label htmlFor="name"></label>
@@ -69,10 +96,8 @@ function Cadastro({ children }) {
               value={formik.values.name}
               data-teste="inputName"
             />
-
             <br></br>
             <br></br>
-
             <label htmlFor="password"></label>
             <TextField
               id="password"
@@ -87,7 +112,6 @@ function Cadastro({ children }) {
               value={formik.values.password}
               data-teste="inputPassword"
             />
-
             <br></br>
             <br></br>
             <label htmlFor="email"></label>
@@ -101,10 +125,8 @@ function Cadastro({ children }) {
               value={formik.values.email}
               data-teste="inputEmail"
             />
-
             <br></br>
             <br></br>
-
             <Button
               className="registerHome"
               variant="outlined"

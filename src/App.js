@@ -32,18 +32,18 @@ function App() {
         Notification.permission === "granted" &&
         data.userId !== Number(localStorage.getItem("userId"))
       ) {
-        var notification = alertify.notify(
-          `${data.users.name} send "${data.text}"`,
-          "success",
-          5,
-          function(isClicked) {
-            if (isClicked) console.log("notification dismissed by user");
-            else console.log("notification auto-dismissed");
-          }
-        );
-        // new Notification(data.users.name, {
-        //   body: data.text,
-        // });
+        // var notification = alertify.notify(
+        //   `${data.users.name} send "${data.text}"`,
+        //   "success",
+        //   5,
+        //   function(isClicked) {
+        //     if (isClicked) console.log("notification dismissed by user");
+        //     else console.log("notification auto-dismissed");
+        //   }
+        // );
+        new Notification(data.users.name, {
+          body: data.text,
+        });
 
         events.emit("nova-mensagem", data);
       }

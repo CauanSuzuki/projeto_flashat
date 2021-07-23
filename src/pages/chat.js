@@ -69,7 +69,6 @@ function Chat() {
         )
         .then(function(result) {
           if (identificar.idChat == dadosOtherUser.chat.id) {
-            console.log("show-->", result);
             setChat(result.data.showMessage);
             setLastMessage(result.data.showMessage);
           }
@@ -98,7 +97,6 @@ function Chat() {
       )
       .then((resposta) => {
         setChat([...chat, resposta.data.result]);
-        // console.log("then post -->", resposta.data.result);
       });
   }
 
@@ -106,7 +104,6 @@ function Chat() {
     document.getElementById("chatBoxIn").reset();
   }
 
-  // console.log("identificar-->", identificar);
   return (
     <div className="chatMain">
       <div className="Nav">

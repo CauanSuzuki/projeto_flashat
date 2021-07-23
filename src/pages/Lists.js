@@ -77,15 +77,11 @@ function List() {
         }
       )
       .then((resposta) => {
-        console.log("resposta contatos -->", resposta);
         setdadosOtherUser(resposta.data);
         history.push(`/chat/${resposta.data.chat.id}`);
       });
   }
 
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-  console.log("listaConversas list-->", listaConversas);
   return (
     <div className="listMain">
       <nav>

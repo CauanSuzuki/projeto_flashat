@@ -111,8 +111,6 @@ function Account() {
     myStatus();
   }, []);
 
-  //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
   async function alterar(item) {
     await axios
       .put(
@@ -145,7 +143,7 @@ function Account() {
     },
   });
 
-  const firstLetter = touch.name.substr(0, 1);
+  // const firstLetter = touch.name.substr(0, 1);
 
   if (!("serviceWorker" in navigator)) {
     return;
@@ -155,7 +153,7 @@ function Account() {
     return;
   }
 
-  console.log("touch -->", firstLetter);
+  // console.log("touch -->", firstLetter);
 
   return (
     <div className="accountMain">
@@ -176,7 +174,7 @@ function Account() {
         <CardHeader
           avatar={
             <Avatar aria-label="recipe" className={classes.avatar}>
-              {firstLetter}
+              {/* {firstLetter} */}
             </Avatar>
           }
           title={touch.name}

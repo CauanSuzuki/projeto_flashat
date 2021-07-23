@@ -80,6 +80,3 @@ export function useAllocate() {
   const context = useContext(allocateContext);
   return context;
 }
-
-// import { useAllocate } from "../context/allocate";
-// const { data, setData } = useAllocate();
